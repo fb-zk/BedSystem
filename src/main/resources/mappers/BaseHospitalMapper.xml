@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.BaseHospitalMapper">
+  <resultMap id="BaseResultMap" type="com.baisui.BedSystem.entity.BaseHospital">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="HOSPITAL_LEVEL" jdbcType="VARCHAR" property="hospitalLevel" />
+    <result column="HOSPITAL_NATURE" jdbcType="VARCHAR" property="hospitalNature" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="HOSPITAL_TEL" jdbcType="VARCHAR" property="hospitalTel" />
+    <result column="IMAGE" jdbcType="VARCHAR" property="image" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="AREA" jdbcType="VARCHAR" property="area" />
+    <result column="COUNTRY" jdbcType="VARCHAR" property="country" />
+    <result column="SIGNING_DATE" jdbcType="VARCHAR" property="signingDate" />
+    <result column="EXPIRE_DATE" jdbcType="VARCHAR" property="expireDate" />
+    <result column="SERVICE_STATE" jdbcType="VARCHAR" property="serviceState" />
+    <result column="SALER_NAME" jdbcType="VARCHAR" property="salerName" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="SIGNING_STATE" jdbcType="VARCHAR" property="signingState" />
+    <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+    <result column="CONTACT" jdbcType="VARCHAR" property="contact" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    <result column="SALES_TEL" jdbcType="VARCHAR" property="salesTel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, HOSPITAL_LEVEL, HOSPITAL_NATURE, TYPE, ADDRESS, HOSPITAL_TEL, IMAGE, PROVINCE, 
+    CITY, AREA, COUNTRY, SIGNING_DATE, EXPIRE_DATE, SERVICE_STATE, SALER_NAME, ACCOUNT, 
+    PASSWORD, SIGNING_STATE, CREATE_TIME, UPDATE_TIME, CONTACT, REMARK, GRADE, SALES_TEL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CHAIR.BASE_HOSPITAL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CHAIR.BASE_HOSPITAL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.baisui.BedSystem.entity.BaseHospital">
+    insert into CHAIR.BASE_HOSPITAL (ID, NAME, HOSPITAL_LEVEL, 
+      HOSPITAL_NATURE, TYPE, ADDRESS, 
+      HOSPITAL_TEL, IMAGE, PROVINCE, 
+      CITY, AREA, COUNTRY, 
+      SIGNING_DATE, EXPIRE_DATE, SERVICE_STATE, 
+      SALER_NAME, ACCOUNT, PASSWORD, 
+      SIGNING_STATE, CREATE_TIME, UPDATE_TIME, 
+      CONTACT, REMARK, GRADE, 
+      SALES_TEL)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{hospitalLevel,jdbcType=VARCHAR}, 
+      #{hospitalNature,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{hospitalTel,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{signingDate,jdbcType=VARCHAR}, #{expireDate,jdbcType=VARCHAR}, #{serviceState,jdbcType=VARCHAR}, 
+      #{salerName,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{signingState,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{salesTel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.baisui.BedSystem.entity.BaseHospital">
+    insert into CHAIR.BASE_HOSPITAL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="hospitalLevel != null">
+        HOSPITAL_LEVEL,
+      </if>
+      <if test="hospitalNature != null">
+        HOSPITAL_NATURE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="hospitalTel != null">
+        HOSPITAL_TEL,
+      </if>
+      <if test="image != null">
+        IMAGE,
+      </if>
+      <if test="province != null">
+        PROVINCE,
+      </if>
+      <if test="city != null">
+        CITY,
+      </if>
+      <if test="area != null">
+        AREA,
+      </if>
+      <if test="country != null">
+        COUNTRY,
+      </if>
+      <if test="signingDate != null">
+        SIGNING_DATE,
+      </if>
+      <if test="expireDate != null">
+        EXPIRE_DATE,
+      </if>
+      <if test="serviceState != null">
+        SERVICE_STATE,
+      </if>
+      <if test="salerName != null">
+        SALER_NAME,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="signingState != null">
+        SIGNING_STATE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="contact != null">
+        CONTACT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="grade != null">
+        GRADE,
+      </if>
+      <if test="salesTel != null">
+        SALES_TEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalLevel != null">
+        #{hospitalLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalNature != null">
+        #{hospitalNature,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalTel != null">
+        #{hospitalTel,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="signingDate != null">
+        #{signingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null">
+        #{expireDate,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceState != null">
+        #{serviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="salerName != null">
+        #{salerName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="signingState != null">
+        #{signingState,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="salesTel != null">
+        #{salesTel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.baisui.BedSystem.entity.BaseHospital">
+    update CHAIR.BASE_HOSPITAL
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalLevel != null">
+        HOSPITAL_LEVEL = #{hospitalLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalNature != null">
+        HOSPITAL_NATURE = #{hospitalNature,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalTel != null">
+        HOSPITAL_TEL = #{hospitalTel,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        IMAGE = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        AREA = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        COUNTRY = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="signingDate != null">
+        SIGNING_DATE = #{signingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null">
+        EXPIRE_DATE = #{expireDate,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceState != null">
+        SERVICE_STATE = #{serviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="salerName != null">
+        SALER_NAME = #{salerName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="signingState != null">
+        SIGNING_STATE = #{signingState,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        CONTACT = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="salesTel != null">
+        SALES_TEL = #{salesTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.baisui.BedSystem.entity.BaseHospital">
+    update CHAIR.BASE_HOSPITAL
+    set NAME = #{name,jdbcType=VARCHAR},
+      HOSPITAL_LEVEL = #{hospitalLevel,jdbcType=VARCHAR},
+      HOSPITAL_NATURE = #{hospitalNature,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      HOSPITAL_TEL = #{hospitalTel,jdbcType=VARCHAR},
+      IMAGE = #{image,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      AREA = #{area,jdbcType=VARCHAR},
+      COUNTRY = #{country,jdbcType=VARCHAR},
+      SIGNING_DATE = #{signingDate,jdbcType=VARCHAR},
+      EXPIRE_DATE = #{expireDate,jdbcType=VARCHAR},
+      SERVICE_STATE = #{serviceState,jdbcType=VARCHAR},
+      SALER_NAME = #{salerName,jdbcType=VARCHAR},
+      ACCOUNT = #{account,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      SIGNING_STATE = #{signingState,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+      CONTACT = #{contact,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      SALES_TEL = #{salesTel,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--查询医院列表-->
+  <select id="selectHospitalList" resultType="com.baisui.BedSystem.entity.BaseHospital" parameterType="map">
+    select
+    ID  AS id,
+    NAME AS name,
+    HOSPITAL_LEVEL AS hospitalLevel,
+    HOSPITAL_NATURE AS hospitalNature,
+    TYPE AS  type,
+    ADDRESS AS address,
+    SERVICE_STATE AS serviceState,
+    SALER_NAME AS salerName,
+    CONTACT AS contact,
+    GRADE AS grade,
+    SALES_TEL AS salesTel
+    from CHAIR.BASE_HOSPITAL
+    <trim prefix="where" prefixOverrides="and|or">
+      <!-- <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(name)"> and t.name like '%${name}%'</if> -->
+      <!-- 根据名称查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(name)">and NAME like '%${name}%' </if>
+      <!-- 根据省查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(province)">and PROVINCE = #{province}</if>
+      <!-- 根据市查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(city)">and CITY = #{city}</if>
+      <!-- 根据区县查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(country)">and COUNTRY = #{country}</if>
+      <!-- 根据等级查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(hospitalLevel)">and HOSPITAL_LEVEL = #{hospitalLevel}</if>
+      <!-- 根据机构性质查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(nature)"> and HOSPITAL_NATURE = #{nature}</if>
+      <!-- 根据医院性质名称 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(type)"> and TYPE = #{type}</if>
+      <!-- 根据联系人查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(contact)"> and CONTACT like '%${contact}%'</if>
+      <!-- 根据销售人员查询 -->
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(salerName)"> and SALER_NAME like '%${salerName}%'</if>
+    </trim>
+  </select>
+  
+  
+  
+  
+  <!-- 查询医院id和名称，给下拉框动态选择用 -->
+  <select id="findHospitalByid" resultType="com.baisui.BedSystem.entity.dto.Chair_HospitalDTO">
+    SELECT
+    BASE_HOSPITAL.ID id,
+    BASE_HOSPITAL.NAME hospitalId
+    FROM
+    CHAIR.BASE_HOSPITAL
+    <trim prefix="where" prefixOverrides="and|or">
+      <!-- 医院名称模糊查询  hospitalId是医院名称 -->
+      <if test="hospitalId != null">and BASE_HOSPITAL.NAME like '%${hospitalId}%'</if>
+    </trim>
+  </select>
+
+    <!-- 查询医院id和名称 -->
+    <select id="findHospitalName" resultType="com.baisui.BedSystem.entity.BaseHospital">
+        SELECT
+        BASE_HOSPITAL.ID id,
+        BASE_HOSPITAL.NAME name
+        FROM
+        CHAIR.BASE_HOSPITAL
+    </select>
+    
+   <!-- 根据医院名称查询医院id -->
+   <select id="findByName" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.Chair_Depart_HospitalDTO">
+     select 
+		b.ID hospitalId,
+		d.ID departmentId
+	FROM
+		CHAIR.BASE_HOSPITAL b
+	left join 
+		CHAIR.CHAIR_DEPARTMENT d
+	on b.ID = d.HOSPITAL_ID
+    <trim prefix="where" prefixOverrides="and|or">
+      <!-- 医院名称条件查询  hospitalId是医院名称 -->
+      <if test="str_HospitalName != null">and b.NAME = #{str_HospitalName}</if>
+      <if test="str_DepartmentName != null">and d.DEPARTMENT_NAME = #{str_DepartmentName}</if>
+    </trim>
+  </select>
+</mapper>

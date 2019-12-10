@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.SysRoleMapper">
+
+	<resultMap id="BaseResultMap" type="com.baisui.BedSystem.entity.SysRole" >
+		<id column="ROLE_ID" property="roleId" jdbcType="CHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+		<result column="PREFIX" property="prefix" jdbcType="VARCHAR" />
+		<result column="RESOURCE_IDS" property="resourceIds" jdbcType="LONGVARCHAR" />
+	</resultMap>
+
+	<!-- 查询角色信息 -->
+	<select id="selectRoleList" resultType="com.baisui.BedSystem.entity.SysRole">
+		select
+			role_id as  roleId,
+			name as name,
+			key_word as keyWord,
+			prefix as prefix,
+			resource_ids as resourceIds,
+			type as type
+		from CHAIR.SYS_ADMIN_ROLE
+	</select>
+
+	<!-- 删除角色 -->
+	<delete id="deleteById" parameterType="String">
+		delete from CHAIR.SYS_ADMIN_ROLE
+		where role_id = #{roleId}
+	</delete>
+
+	<!-- 分页查询 -->
+	<select id="selectRoleByPage" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.SysRole">
+		select
+		role_id as  roleId,
+		name as name,
+		key_word as keyWord,
+		prefix as prefix,
+		resource_ids as resourceIds,
+		type as type
+		from CHAIR.SYS_ADMIN_ROLE
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="name !=null">
+				and name like '%${name}%'
+			</if>
+		</trim>
+		order by type
+	</select>
+
+	<!--  新增记录  -->  
+    <insert id="insert" parameterType="com.baisui.BedSystem.entity.SysRole">
+        insert into CHAIR.SYS_ADMIN_ROLE (
+        	role_id, 
+        	name, 
+        	key_word, 
+        	resource_ids,
+        	prefix,
+        	type
+        ) values (
+        	#{roleId, jdbcType=VARCHAR},
+        	#{name, jdbcType=VARCHAR},
+        	#{keyWord, jdbcType=VARCHAR},
+        	#{resourceIds, jdbcType=VARCHAR},
+        	#{prefix, jdbcType=VARCHAR},
+        	#{type, jdbcType=VARCHAR}
+        )  
+    </insert>
+
+
+	<select id="queryRoleNameExist" parameterType="String" resultType="com.baisui.BedSystem.entity.SysRole">
+		select
+			NAME as name
+		from
+			CHAIR.SYS_ADMIN_ROLE
+		where
+			NAME = #{name}
+	</select>
+
+	<!-- 根据角色id,查询角色信息 -->
+	<select id="selectById" parameterType="String" resultType="com.baisui.BedSystem.entity.SysRole">
+		select
+			ROLE_ID as  roleId,
+			NAME as name,
+			KEY_WORD as keyWord,
+			PREFIX as prefix,
+			RESOURCE_IDS as resourceIds,
+			TYPE as type
+		from CHAIR.SYS_ADMIN_ROLE
+		where ROLE_ID = #{roleId, jdbcType=VARCHAR}
+	</select>
+
+    <!-- 根据roleId 修改 -->
+    <update id="update" parameterType="com.baisui.BedSystem.entity.SysRole">
+    	update CHAIR.SYS_ADMIN_ROLE
+    	<trim prefix="SET" suffixOverrides=",">
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="keyWord != null">
+				key_word = #{keyWord}, 
+			</if>
+			<if test="resourceIds != null">
+				resource_ids = #{resourceIds}, 
+			</if>
+			<if test="prefix != null">
+				prefix = #{prefix},
+			</if>
+			<if test="type != null">
+				type = #{type}
+			</if>
+    	</trim>	    		
+    	where role_id = #{roleId, jdbcType=VARCHAR}
+    </update>
+	
+
+
+
+
+
+
+
+
+
+
+	
+	<!-- 根据角色id,查询关键字 -->
+	<select id="selectRoleKeyWords" parameterType="String"
+		resultType="String">
+		select key_word
+		from CHAIR.SYS_ADMIN_ROLE
+		where role_id in (${_parameter}) 
+    </select> 
+    
+    <!-- 根据角色id，查询资源id -->
+    <select id="selectResourceIds" parameterType="String"
+		resultType="String">
+		select resource_ids
+		from CHAIR.SYS_ADMIN_ROLE
+		where role_id in (${_parameter}) 
+    </select>
+    
+
+     
+     <!-- 根据角色id,查询多个角色信息 -->
+     <select id="selectListById" parameterType="String" resultType="com.baisui.BedSystem.entity.SysRole">
+    	select 
+    		ROLE_ID as  roleId,
+    		NAME as name,
+    		KEY_WORD as keyWord,
+    		PREFIX as prefix,
+    		RESOURCE_IDS as resourceIds,
+    		TYPE as type
+    	from CHAIR.SYS_ADMIN_ROLE
+    	where ROLE_ID in (${_parameter})
+    </select>
+	
+
+     
+     
+     <!-- 查询角色信息 -->
+	<select id="selectRoleByType" parameterType="String" resultType="com.baisui.BedSystem.entity.SysRole">
+		select 
+    		role_id as  roleId, 
+    		name as name, 
+    		key_word as keyWord,
+    		prefix as prefix,
+    		resource_ids as resourceIds,
+    		type as type
+    	from CHAIR.SYS_ADMIN_ROLE where type = #{type}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select ROLE_ID, NAME, KEY_WORD, PREFIX
+    from CHAIR.SYS_ADMIN_ROLE
+    where ROLE_ID = #{roleId,jdbcType=CHAR}
+  </select>
+
+	<select id="getSysRoleByName" parameterType="String" resultMap="BaseResultMap">
+   select ROLE_ID, NAME, KEY_WORD, PREFIX
+    from CHAIR.SYS_ADMIN_ROLE
+    where name = #{name}
+  </select>
+</mapper>

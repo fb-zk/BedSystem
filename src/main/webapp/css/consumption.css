@@ -1,0 +1,28 @@
+#name {
+  width: 100px;
+  position: absolute;
+  top: 25px;
+  left: 390px;
+  font-size: 17px;
+}
+
+#bth10 {
+  line-height: 30px;
+
+
+  position: absolute;
+  left: 450px;
+
+
+  padding-left: 8px;
+
+
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 4px;
+}
+
+.content_input .search_btn {
+  position: absolute;
+  left: 1030px;
+}

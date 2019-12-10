@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.ChairResourceAllocationMapper">
+	<resultMap id="BaseResultMap"
+		type="com.baisui.BedSystem.entity.ChairResourceAllocation">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="CASH_PLEDGE_MONEY" jdbcType="VARCHAR" property="cashPledgeMoney" />
+		<result column="COST_NORMAL" jdbcType="VARCHAR" property="costNormal" />
+		<result column="HOSPITAL_ID	" jdbcType="VARCHAR" property="hospitalId" />
+		<result column="FREE_TIME" jdbcType="VARCHAR" property="freeTime" />
+		<result column="COST_PROPORTION" jdbcType="VARCHAR" property="costProportion" />
+		<result column="LIMIT_AMOUNT" jdbcType="VARCHAR" property="limitAmount" />
+		<result column="RATES" jdbcType="VARCHAR" property="rates" />
+		<result column="CHARGE_MODEL" jdbcType="VARCHAR" property="chargeModel" />
+		<result column="CHARGE_NUMBER" jdbcType="VARCHAR" property="chargeNumber" />
+		<result column="RATES_TIME" jdbcType="VARCHAR" property="ratesTime" />
+
+	</resultMap>
+
+	<!--根据id搜索计费信息-->
+	<select id="findById" parameterType="java.lang.String" resultType="com.baisui.BedSystem.entity.dto.ChairResourceAllocationDTO">
+		SELECT
+		ba.ID AS id,
+		ba.HOSPITAL_ID AS hospitalId,
+		bh.NAME AS hospitalName,
+		ba.CASH_PLEDGE_MONEY AS cashPledgeMoney,
+		ba.COST_NORMAL AS costNormal,
+		ba.FREE_TIME AS freeTime,
+		ba.COST_PROPORTION AS costProportion,
+		ba.LIMIT_AMOUNT AS limitAmount,
+		ba.RATES AS rates,
+		ba.CHARGE_MODEL AS chargeModel,
+		ba.CHARGE_NUMBER AS chargeNumber,
+		ba.RATES_TIME AS ratesTime
+		FROM
+		CHAIR.CHAIR_RESOURCE_ALLOCATION ba
+		LEFT JOIN CHAIR.BASE_HOSPITAL bh ON
+		ba.HOSPITAL_ID = bh.ID
+		WHERE ba.ID = #{id}
+
+	</select>
+
+
+
+	<insert id="insert" parameterType="com.baisui.BedSystem.entity.ChairResourceAllocation">
+		insert into CHAIR.CHAIR_RESOURCE_ALLOCATION (ID,CASH_PLEDGE_MONEY,COST_NORMAL,HOSPITAL_ID,
+		            FREE_TIME,COST_PROPORTION,LIMIT_AMOUNT,RATES,CHARGE_MODEL,CHARGE_NUMBER,RATES_TIME)
+		values(#{id,jdbcType=VARCHAR}, #{cashPledgeMoney,jdbcType=VARCHAR},
+		#{costNormal,jdbcType=VARCHAR},#{hospitalId,jdbcType=VARCHAR},#{freeTime,jdbcType=VARCHAR},
+		 #{costProportion,jdbcType=VARCHAR},#{limitAmount,jdbcType=VARCHAR},#{rates,jdbcType=VARCHAR},
+		 #{chargeModel,jdbcType=VARCHAR}, #{chargeNumber,jdbcType=VARCHAR},#{ratesTime,jdbcType=VARCHAR})
+	</insert>
+
+	<!--根据id删除医院计费信息-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+			CHAIR.CHAIR_RESOURCE_ALLOCATION
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<!--显示所有医院 根据医院名称搜索 -->
+	<select id="selectBedResourceByPage" parameterType="java.util.Map"
+			resultType="com.baisui.BedSystem.entity.dto.ChairResourceAllocationDTO">
+		SELECT
+		ba.ID AS id,
+		bh.NAME AS hospitalName,
+		ba.HOSPITAL_ID AS hospitalId,
+		ba.CASH_PLEDGE_MONEY AS cashPledgeMoney,
+		ba.COST_NORMAL AS costNormal,
+		ba.FREE_TIME AS freeTime,
+		ba.COST_PROPORTION AS costProportion,
+		ba.LIMIT_AMOUNT AS limitAmount,
+		ba.RATES AS rates,
+		ba.CHARGE_MODEL AS chargeModel,
+		ba.CHARGE_NUMBER AS chargeNumber,
+		ba.RATES_TIME AS ratesTime
+		FROM
+		CHAIR.CHAIR_RESOURCE_ALLOCATION ba
+		LEFT JOIN CHAIR.BASE_HOSPITAL bh ON
+		ba.HOSPITAL_ID = bh.ID
+		where
+		1=1
+		<if test="hospitalName !=null and hospitalName !=''">
+			and bh.NAME like '%${hospitalName}%'
+		</if>
+	</select>
+
+
+	<!-- 修改   押金 收费标准 医院ID 免费时间 收费标准   封顶金额-->
+	<update id="update" parameterType="com.baisui.BedSystem.entity.ChairResourceAllocation">
+		update CHAIR.CHAIR_RESOURCE_ALLOCATION
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(cashPledgeMoney)">
+				CASH_PLEDGE_MONEY = #{cashPledgeMoney},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(costNormal)">
+				COST_NORMAL = #{costNormal},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(limitAmount)">
+				LIMIT_AMOUNT = #{limitAmount},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(rates)">
+				RATES = #{rates},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(chargeModel)">
+				CHARGE_MODEL = #{chargeModel},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(chargeNumber)">
+				CHARGE_NUMBER = #{chargeNumber},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(ratesTime)">
+				RATES_TIME = #{ratesTime}
+			</if>
+		</trim>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--    插入id 押金金额 收费标准-->
+	<!--<insert id="insertSelective" parameterType="com.baisui.BedSystem.entity.BedResourceAllocation">
+		insert into EDOCTOR.BED_RESOURCE_ALLOCATION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="cashPledgeMoney != null">
+				CASH_PLEDGE_MONEY,
+			</if>
+			<if test="costNormal != null">
+				COST_NORMAL,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="cashPledgeMoney != null">
+				#{cashPledgeMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="costNormal != null">
+				#{costNormal,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>-->
+
+	<!--	更新押金金额 收费标准-->
+	<!--<update id="updateByPrimaryKeySelective"
+		parameterType="com.baisui.BedSystem.entity.BedResourceAllocation">
+		update EDOCTOR.BED_RESOURCE_ALLOCATION
+		<set>
+			<if test="cashPledgeMoney != null">
+				CASH_PLEDGE_MONEY = #{cashPledgeMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="costNormal != null">
+				COST_NORMAL = #{costNormal,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>-->
+
+	<!--	更新押金金额 收费标准 id-->
+	<!--<update id="updateByPrimaryKey"
+		parameterType="com.baisui.BedSystem.entity.BedResourceAllocation">
+		update EDOCTOR.BED_RESOURCE_ALLOCATION
+		set
+		CASH_PLEDGE_MONEY = #{cashPledgeMoney,jdbcType=VARCHAR},
+		COST_NORMAL =
+		#{costNormal,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+-->
+</mapper>

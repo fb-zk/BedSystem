@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.SysResourceMapper">
+
+	<!--  新增记录  -->  
+    <insert id="insert" parameterType="com.baisui.BedSystem.entity.SysResource">
+        insert into sys_admin_resource (
+        	resource_id, 
+        	code, 
+        	name, 
+        	url, 
+        	key_word, 
+        	parent_id, 
+        	type, 
+        	weight 
+        ) values (
+        	#{resourceId}, 
+        	#{code}, 
+        	#{name}, 
+        	#{url}, 
+        	#{keyWord}, 
+        	#{parentId}, 
+        	#{type}, 
+        	#{weight} 
+        )  
+    </insert>
+    
+    <!-- 修改 -->
+    <update id="update" parameterType="com.baisui.BedSystem.entity.SysResource">
+    	update sys_admin_resource
+    	<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(name)">
+				name = #{name}, 
+			</if>
+			<if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(url)">
+				url = #{url}, 
+			</if>
+			<if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(keyWord)">
+				key_word = #{keyWord},  
+			</if>
+			<if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(parentId)">
+				parent_id = #{parentId},  
+			</if>
+			<if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(type)">
+				type = #{type},  
+			</if>
+			<if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(weight)">
+				weight = #{weight}   
+			</if>
+    	</trim>	  
+    	where resource_id = #{resourceId} 
+    </update>
+	
+	<!-- 通过资源id 查询关键字 -->
+	<select id="selectResourceKeyWords" parameterType="String"
+		resultType="String">
+		select distinct key_word
+		from sys_admin_resource
+		where resource_id in (${_parameter})
+    </select>
+    
+    <!-- 查询资源信息 -->
+    <select id="selectResourceTree" resultType="java.util.HashMap">
+		SELECT 
+			RESOURCE_ID AS "id", 
+			NAME AS "name", 
+			rtrim(PARENT_ID) AS "pId", 
+			CODE AS "code" 
+		FROM 
+			sys_admin_resource
+		ORDER BY WEIGHT ASC 
+	</select>  
+	
+	<select id="selectById" parameterType="String" resultType="com.baisui.BedSystem.entity.SysResource">
+    	select 
+    		resource_id as resourceId, 
+    		code as code, 
+    		name as name, 
+    		url as url, 
+    		key_word as keyWord, 
+    		parent_id as parentId, 
+    		type as type, 
+    		weight as weight 
+    	from sys_admin_resource where resource_id = #{resourceId}
+    </select>
+    
+    <delete id="deleteByCode" parameterType="String">
+    	delete sys_admin_resource
+    	where code like '${_parameter}%'
+    </delete>
+    
+    <!-- 查询该父节点下最新编号 -->
+    <select id="selectNewCode" parameterType="String" resultType="String">
+    	SELECT MAX(CODE) 
+		FROM sys_admin_resource
+		WHERE PARENT_ID = #{parentId} 
+    </select>
+
+</mapper>

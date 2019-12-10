@@ -1,0 +1,351 @@
+body {
+  background-color: #F7F7F7;
+  overflow-x: hidden;
+}
+
+.main {
+  width: 1580px;
+  height: 680px;
+  background: rgba(255, 255, 255, 1);
+  position: absolute;
+
+  top: 200px;
+}
+
+.main1 {
+  width: 100%;
+  height: 430px;
+
+}
+
+.hospitalName {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  font-size: 20px;
+}
+
+.hospitalName input {
+  height: 32px;
+  width: 300px;
+}
+
+.hospitalType {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 80px;
+  left: 40px;
+  font-size: 20px;
+
+}
+
+.hospitalType input {
+  height: 32px;
+  width: 300px;
+  padding-left: 20px;
+}
+
+.hospitalNature {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 140px;
+  left: 40px;
+  font-size: 20px;
+
+}
+
+.hospitalNature input {
+  height: 32px;
+  width: 300px;
+  padding-left: 20px;
+}
+
+.region {
+  height: 40px;
+  width: 500px;
+  position: relative;
+  top: 195px;
+  left: 40px;
+}
+#distpicker{
+  position:absolute;
+  left: 105px;
+  top: 0px;
+
+}
+
+#region1 {
+  position: relative;
+  top: 2px;
+  left: 30px;
+  font-size: 20px;
+}
+.city-picker-span{
+  border: 1px solid #ccc;
+}
+.form-inline {
+  height: 32px;
+  width: 300px;
+  position: relative;
+  left: 104px;
+
+}
+
+.account {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 250px;
+  left: 74px;
+  font-size: 17px;
+  margin-left: 14px;
+}
+
+.account input {
+  height: 32px;
+  width: 300px;
+  padding-left: 20px;
+}
+
+.salerName {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 307px;
+  left: -3px;
+  font-size: 20px;
+}
+
+.salerName input {
+  height: 32px;
+  width: 300px;
+  padding-left: 20px;
+}
+
+.salesTel input {
+  height: 32px;
+  width: 300px;
+  padding-left: 20px;
+}
+.salesTel {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 365px;
+  left: -3px;
+  font-size: 20px;
+}
+
+.signingState {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 418px;
+  left: 37px;
+  font-size: 20px;
+}
+
+.signingState input {
+  height: 32px;
+  width: 296px;
+  padding-left: 20px;
+}
+
+.hospitalLev {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  left: 888px;
+  font-size: 20px;
+}
+
+.hospitalLev input {
+  height: 32px;
+  width: 296px;
+  padding-left: 20px;
+}
+
+.contact {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 70px;
+  left: 908px;
+  font-size: 20px;
+}
+
+.contact input {
+  height: 32px;
+  width: 296px;
+  padding-left: 20px;
+}
+
+.tel {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 130px;
+  left: 888px;
+  font-size: 20px;
+}
+
+.tel input {
+  height: 32px;
+  width: 296px;
+
+}
+
+.address {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 190px;
+  left: 888px;
+  font-size: 20px;
+}
+
+.address input {
+  height: 32px;
+  width: 300px;
+  font-size: 16px;
+}
+
+.signingDate {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 250px;
+  left: 888px;
+  font-size: 20px;
+}
+
+.signingDate input {
+  height: 32px;
+  width: 300px;
+}
+
+.expireDate {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 306px;
+  left: 888px;
+  font-size: 20px;
+}
+
+.expireDate input {
+  height: 32px;
+  width: 296px;
+}
+
+.remark {
+  width: 490px;
+  height: 40px;
+  position: absolute;
+  top: 360px;
+  left: 927px;
+  font-size: 20px
+}
+
+.remark input {
+  height: 32px;
+  width: 300px;
+}
+
+#save {
+  width: 190px;
+  height: 40px;
+  position: absolute;
+  bottom: 219px;
+  right: 175px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(9, 182, 153, 1);
+  border-radius: 2px;
+}
+
+.main2 {
+  width: 100%;
+  height: 230px;
+
+  position: relative;
+  bottom: -30px;
+}
+
+.main2 span {
+  position: absolute;
+  top: 25px;
+  left: 15px;
+  font-size: 19px;
+}
+
+.submenu {
+  width: 80%;
+  height: 150px;
+
+  position: absolute;
+  top: 20px;
+  left: 100px;
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 2px;
+}
+
+.submenu button {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 140px;
+  height: 45px;
+  color: #fff;
+}
+
+#gushang {
+  background: rgba(9, 182, 153, 1);
+  opacity: 0.15;
+  border-radius: 2px;
+}
+
+.submenu  button{
+  background: rgba(9, 182, 153, 1);
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+#waike {
+
+  background: rgba(9, 182, 153, 1);
+  opacity: 0.15;
+  border-radius: 2px;
+}
+
+#addtion {
+
+  background: rgba(9, 182, 153, 1);
+  opacity: 0.9;
+  border-radius: 2px;
+}
+
+.main>button {
+  width: 190px;
+  height: 45px;
+  position: absolute;
+  right: 172px;
+  bottom: -10px;
+  background: rgba(9, 182, 153, 1);
+  border-radius: 2px;
+  color: #fff;
+}
+
+#city-picker3 {
+  border: solid 1px #ccc;
+
+}
+#hospitalLev select{
+  width: 146px;
+  height: 32px;
+}

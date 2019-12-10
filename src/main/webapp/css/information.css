@@ -1,0 +1,119 @@
+body {
+  background-color: #F7F7F7;
+}
+
+#jieshu {
+  position: absolute;
+  top: 0px;
+  left: 364px;
+  width: 100px;
+}
+
+.inquire button {
+  width: 120px;
+  height: 45px;
+  background: rgba(9, 182, 153, 1);
+  border-radius: 2px;
+  font-size: 11px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+
+}
+
+#sousuo {
+  position: absolute;
+  top: 20px;
+  left: 810px;
+  border: 0px;
+}
+
+#tianjia {
+  position: absolute;
+  top: 20px;
+  left: 1130px;
+  border: 0px;
+}
+
+#chongzhi {
+  position: absolute;
+  top: 20px;
+  left: 970px;
+  border: 0px;
+}
+
+.submenu10 {
+  flex-grow: 1;
+}
+
+.particulars1 {
+  display: flex;
+}
+
+.submenu11 {
+  flex-grow: 3;
+}
+
+.describe1 {
+  flex-grow: 1;
+}
+
+.describe2 {
+  flex-grow: 1;
+}
+
+.describe3 {
+  flex-grow: 1;
+}
+
+.describe4 {
+  flex-grow: 1;
+}
+
+.describe5 {
+  flex-grow: 1;
+}
+
+.describe6 {
+  flex-grow: 1;
+}
+
+.describe7 {
+  flex-grow: 1;
+}
+
+.describe8 {
+  flex-grow: 1;
+}
+
+.describe9 {
+  flex-grow: 1;
+}
+
+.describe10 {
+  flex-grow: 1;
+}
+
+.describe11 {
+  flex-grow: 2;
+}
+
+#btn1 {
+  background-color: #fff;
+  color: #079B82;
+}
+
+#btn2 {
+  background-color: #fff;
+}
+
+#queren {
+  position: absolute;
+  width: 140px;
+  height: 40px;
+  bottom: 130px;
+  right: 100px;
+  background: rgba(9, 182, 153, 1);
+  border-radius: 2px;
+  color: #fff;
+}

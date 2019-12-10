@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.FactoryMapper">
+  <resultMap id="BaseResultMap" type="com.baisui.BedSystem.entity.Factory">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PERSON" jdbcType="VARCHAR" property="person" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="SERVIEE_DETAILS" jdbcType="VARCHAR" property="servieeDetails" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UNIT_PRICES" jdbcType="DECIMAL" property="unitPrices" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, NAME, PHONE, PERSON, ADDRESS, SERVIEE_DETAILS, CREATE_TIME, UPDATE_TIME, UNIT_PRICES
+  </sql>
+  
+  <insert id="insert" parameterType="com.baisui.BedSystem.entity.Factory">
+    insert into CHAIR.FACTORY (ID, CODE, NAME, 
+      PHONE, PERSON, ADDRESS, 
+      SERVIEE_DETAILS, CREATE_TIME, UPDATE_TIME, UNIT_PRICES)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{servieeDetails,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{unitPrices,jdbcType=DECIMAL})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.baisui.BedSystem.entity.Factory">
+    insert into CHAIR.FACTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="person != null">
+        PERSON,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="servieeDetails != null">
+        SERVIEE_DETAILS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="factoryOrderId != null">
+        FACTORY_ORDER_ID,
+      </if>
+      <if test="unitPrices != null">
+        UNIT_PRICES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="servieeDetails != null">
+        #{servieeDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="factoryOrderId != null">
+        #{factoryOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrices != null">
+        #{unitPrices,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectById" parameterType="String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    CHAIR.FACTORY
+    where ID = #{id}
+  </select>
+  
+  <!-- 查询厂商 -->
+  <select id="selectAllFactory" parameterType="java.util.Map" resultMap="BaseResultMap">
+  		SELECT
+  			<include refid="Base_Column_List" />
+		FROM
+			CHAIR.FACTORY
+
+  </select>
+
+  <!-- 根据厂商名字查询厂商id -->
+  <select id="selectFactoryByName" parameterType="java.lang.String" resultType="java.lang.String">
+  		SELECT
+  			FACTORY.ID
+		FROM
+			CHAIR.FACTORY
+		WHERE 
+			 FACTORY.NAME = #{str_FactoryName}
+  </select>
+  
+	
+  <!-- 厂商下拉框动态加载数据用 -->
+  <select id="findAllDTOFactory" resultType="com.baisui.BedSystem.entity.dto.Chair_FactoryDTO">
+  		SELECT
+  			FACTORY.ID id,
+  			FACTORY.NAME factoryId
+		FROM
+			CHAIR.FACTORY
+  </select>
+  
+  <!-- 查询厂商陪护椅价格，数据库中价格是number类型，所以返回类型必须要用java.math.BigDecimal -->
+  <select id="findUnitPrices" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+  		SELECT
+  			FACTORY.UNIT_PRICES
+		FROM
+			CHAIR.FACTORY
+		WHERE
+			 FACTORY.ID = #{f_id}
+  </select>
+
+  <!-- 删除厂商信息 -->
+  <delete id="deleteById" parameterType="string">
+    DELETE FROM
+          CHAIR.FACTORY
+    WHERE
+          ID = #{id}
+  </delete>
+
+  <update id="updateById" parameterType="com.baisui.BedSystem.entity.Factory">
+    UPDATE CHAIR.FACTORY
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(code)">
+        CODE = #{code},
+      </if>
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(name)">
+        NAME = #{name},
+      </if>
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(phone)">
+        PHONE = #{phone},
+      </if>
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(person)">
+        PERSON = #{person},
+      </if>
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(address)">
+        ADDRESS = #{address},
+      </if>
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(servieeDetails)">
+        SERVIEE_DETAILS = #{servieeDetails},
+      </if>
+      <if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(unitPrices)">
+        UNIT_PRICES = #{unitPrices}
+      </if>
+    </trim>
+    where id = #{id}
+  </update>
+
+</mapper>

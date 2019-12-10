@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.HospitalUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.baisui.BedSystem.entity.HospitalUser">
+        <id column="ID" jdbcType="CHAR" property="id" />
+        <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="NUM" jdbcType="VARCHAR" property="num" />
+        <result column="SUBJECT_Name" jdbcType="VARCHAR" property="subjectName" />
+        <result column="MOBILENO" jdbcType="CHAR" property="mobileno" />
+        <result column="ROLE_IDS" jdbcType="VARCHAR" property="roleIds" />
+        <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId" />
+        <result column="DEPARTMENT_ID" jdbcType="VARCHAR" property="departmentId" />
+        <result column="hospitalName" jdbcType="VARCHAR" property="hospitalName" />
+        <result column="isRemind" jdbcType="DECIMAL" property="isRemind" />
+        <result column="sendTime" jdbcType="VARCHAR" property="sendTime" />
+        <result column="isSend" jdbcType="DECIMAL" property="isSend" />
+    </resultMap>
+
+    <!-- 带条件分页查询 -->
+    <select id="QueryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from (select * from (select t.id, t.username, t.password,
+        t.name, t.mobileno, s.name as ROLE_IDS, t.department_id, bs.name as
+        SUBNAME, t.hospital_id, rownum rn from hospital_user t left join
+        sys_role s on t.role_ids=s.role_id left join base_subjectcontents bs
+        on bs.id= t.department_id
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="name !=null"> and t.name like '%${name}%'
+            </if>
+            <!-- 根据电话查询 -->
+            <if test="mobileno !=null"> and t.mobileno like '%${mobileno}%'
+            </if>
+            <!-- 根据科室 -->
+            <if test="subName !=null"> and bs.name like '%${subName}%'
+            </if>
+            <if test="username !=null"> and t.username like '%${username}%'
+            </if>
+            <if test="hospitalId !=null"> and t.HOSPITAL_ID = '${hospitalId}'
+            </if>
+            <!-- and s.name not in('医院管理员') -->
+            order by t.role_ids asc
+        </trim>
+        ) t1, (select count(*) num from hospital_user h left join
+        sys_role s on h.role_ids=s.role_id left join base_subjectcontents bs
+        on bs.id= h.department_id
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="name !=null"> and h.name like '%${name}%'
+            </if>
+            <if test="mobileno !=null"> and h.mobileno = '${mobileno}'
+            </if>
+            <if test="subName !=null"> and bs.name like '%${subName}%'
+            </if>
+            <if test="username !=null"> and h.username like '%${username}%'
+            </if>
+            <if test="hospitalId !=null"> and h.HOSPITAL_ID = '${hospitalId}'
+            </if>
+        </trim>
+        ) where rn &lt;${lastRows} ) where rn &gt;${firstRows}
+    </select>
+
+    <!--  新增用户  -->
+    <insert id="insert" parameterType="com.baisui.BedSystem.entity.HospitalUser">
+        insert into hospital_user(id, username, password, role_ids, mobileno, name, 
+        hospital_id, department_id) 
+        values
+        (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR},
+        #{mobileno,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{hospitalId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 修改用户 -->
+    <update id="update" parameterType="com.baisui.BedSystem.entity.HospitalUser">
+        update hospital_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(username)">
+                username = #{username},
+            </if>
+            <if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(roleIds)">
+                role_ids = #{roleIds},
+            </if>
+            <if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(mobileno)">
+                mobileno = #{mobileno},
+            </if>
+            <if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(hospitalId)">
+                hospital_id = #{hospitalId},
+            </if>
+            <if test="@com.kxt.util.mybatis.Ognl@isNotEmpty(departmentId)">
+                department_id = #{departmentId}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleteUserById" parameterType="String">
+    	delete hospital_user 
+    	where id in (${_parameter}) 
+    </delete>
+
+    <!-- 分页查询用户 -->
+    <select id="selectUserByPage" resultType="com.baisui.BedSystem.entity.HospitalUser" parameterType="Map">
+        select
+        hospital_user.id as id,
+        hospital_user.username as username,
+        hospital_user.password as password,
+        hospital_user.name as name,
+        hospital_user.mobileno as mobileno,
+        hospital_user.role_ids as roleIds,
+        hospital_user.hospital_id as hospitalId,
+        hospital_user.department_id as departmentId,
+        SLAVE_HOSPITAL.hospital_name as hospitalName,
+        base_subjectcontents.name as subjectName,
+        sys_role.name as roleName
+        from hospital_user
+        left join SLAVE_HOSPITAL on hospital_user.hospital_id = SLAVE_HOSPITAL.hospital_id
+        left join base_subjectcontents on hospital_user.department_id = base_subjectcontents.id
+        left join sys_role on hospital_user.role_ids = sys_role.id
+        <where>
+            <if test="name != null">
+                and hospital_user.name like '%${name}%'
+            </if>
+            <if test="hospitalId!=null">
+                and hospital_user.hospital_id = #{hospitalId}
+            </if>
+            <if test="departmentId !=null">
+                and hospital_user.department_id = #{departmentId}
+            </if>
+        </where>
+
+    </select>
+
+    <!-- 根据用户id,查询用户 -->
+    <select id="selectByUserId" resultType="com.baisui.BedSystem.entity.HospitalUser" parameterType="String">
+   		    select id as id, 
+   		    username as username, 
+   		    password as password, 
+   		    name as name, 
+   		    mobileno as mobileno, 
+   		    role_ids as roleIds, 
+    		hospital_id as hospitalId,
+    		department_id as departmentId
+    		from hospital_user
+    		where id = #{userId}
+
+    </select>
+
+    <!-- 根据id,查询用户 -->
+    <select id="selectUserById" parameterType="Map" resultType="com.baisui.BedSystem.entity.HospitalUser">
+        select
+        hospital_user.id as id,
+        hospital_user.username as username,
+        hospital_user.password as password,
+        hospital_user.name as name,
+        hospital_user.mobileno as mobileno,
+        hospital_user.role_ids as roleIds,
+        hospital_user.hospital_id as hospitalId,
+        hospital_user.department_id as departmentId,
+        base_hospital.hospital_name as hospitalName
+        from hospital_user
+        left join base_hospital on
+        hospital_user.hospital_id = base_hospital.hospital_id
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </trim>
+    </select>
+
+    <!-- 根据用户名,查询角色id -->
+    <select id="selectRoleIds" parameterType="String" resultType="String">
+		select role_ids
+		from hospital_user
+		where username = #{userName} 
+    </select>
+
+    <!-- 根据用户名和密码,查询用户 -->
+    <select id="selectUserByAccount" parameterType="java.util.Map"
+            resultType="com.baisui.BedSystem.entity.HospitalUser">
+   		    select id as id, 
+   		    username as username, 
+   		    password as password, 
+   		    name as name, 
+   		    mobileno as mobileno, 
+   		    role_ids as roleIds, 
+    		hospital_id as hospitalId,
+    		department_id as departmentId
+    		from hospital_user
+    		where username = #{username} and password = #{password} 
+    </select>
+
+    <!-- 查询角色名称 -->
+    <select id="selectRoleNameByUserId" parameterType="String"
+            resultType="String">
+		select 
+		name from sys_role
+		where
+		(
+		select
+		hospital_user.role_ids
+		from
+		hospital_user
+		where
+		hospital_user.id = #{id}
+		) like  concat(concat('%','sys_role.role_id'),'%')
+	</select>
+
+
+    <select id="selectuserListByhospitalId" parameterType="String" resultType="com.baisui.BedSystem.entity.HospitalUser">
+	
+	select 
+            hospital_user.id as id, 
+            hospital_user.username as username, 
+            hospital_user.password as password, 
+            hospital_user.name as name, 
+            hospital_user.mobileno as mobileno, 
+            hospital_user.role_ids as roleIds,          
+            hospital_user.hospital_id as hospitalId,
+            hospital_user.department_id as departmentId,
+            base_hospital.hospital_name as hospitalName,
+            base_subjectcontents.name as subjectName
+            from hospital_user
+            left join base_hospital on hospital_user.hospital_id = base_hospital.hospital_id
+            left join base_subjectcontents on hospital_user.department_id  = base_subjectcontents.id
+   
+    where      hospital_user.hospital_id = #{_parameter}
+      
+	
+	</select>
+
+
+    <!-- 根据用户id,查询用户 -->
+    <select id="selectByHospitalId" resultType="com.baisui.BedSystem.entity.HospitalUser" parameterType="String">
+   			select 
+		   	hospital_user.id as id, 
+   		    hospital_user.username as username, 
+   		    hospital_user.password as password, 
+   		    hospital_user.name as name, 
+   		    hospital_user.mobileno as mobileno, 
+   		    hospital_user.role_ids as roleIds,     		
+    		hospital_user.hospital_id as hospitalId,
+    		hospital_user.department_id as departmentId,
+    		base_hospital.hospital_name as hospitalName,
+			base_subjectcontents.name as subjectName
+    		from hospital_user
+    		left join base_hospital on hospital_user.hospital_id = base_hospital.hospital_id
+			left join base_subjectcontents on hospital_user.department_id  = base_subjectcontents.id
+			where hospital_user.hospital_id = #{hospitalId}
+
+    </select>
+
+    <select id="checkName" parameterType="String" resultType="com.baisui.BedSystem.entity.HospitalUser">
+    
+      select * from hospital_user where username=#{_parameter}
+
+    </select>
+
+    <!--登录查询 -->
+    <select id="selectByAccount" parameterType="java.lang.String"
+            resultMap="BaseResultMap"> select HOSPITAL_USER.*,SLAVE_HOSPITAL.hospital_name as
+		hospitalName from HOSPITAL_USER , SLAVE_HOSPITAL where
+		HOSPITAL_USER.Hospital_Id=SLAVE_HOSPITAL.hospital_id and USERNAME =
+		#{username,jdbcType=CHAR}
+	</select>
+
+    <select id="selectSub" parameterType="java.lang.String"
+            resultMap="BaseResultMap"> select t.department_id DEPARTMENT_ID , s.name SUBNAME from
+		hospital_department t, base_subjectcontents s where t.department_id =
+		s.id and t.hospital_id = #{hospitalId} and t.state = 1
+	</select>
+</mapper>

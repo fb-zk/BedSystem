@@ -1,0 +1,73 @@
+#name {
+  width: 140px;
+    position: absolute;
+    top: 25px;
+    left: 332px;
+    font-size: 16px;
+}
+
+#bth10 {
+  line-height: 30px;
+
+
+  position: absolute;
+  left: 430px;
+  top: 20px;
+
+  padding-left: 8px;
+  width: 220px;
+  height: 36px;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 4px;
+}
+
+.content_input .search_btn {
+  position: absolute;
+  left: 1360px;
+}
+
+#bth9 {
+  width: 220px;
+  height: 36px;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 4px;
+}
+
+#keshi {
+  width: 60px;
+  position: absolute;
+  top: 25px;
+  left: 700px;
+  font-size: 17px;
+}
+
+#bth11 {
+  width: 220px;
+  height: 36px;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 4px;
+  position: absolute;
+  left: 760px;
+}
+
+#frequency {
+  width: 68px;
+  position: absolute;
+  top: 25px;
+  left: 1020px;
+  font-size: 17px;
+
+}
+
+#bth12 {
+  width: 220px;
+  height: 36px;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 4px;
+  position: absolute;
+  left: 1075px;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.baisui.BedSystem.mapper.ChairDepartmentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.baisui.BedSystem.entity.ChairDepartment">
+		<result column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT_NAME" property="departmentName" jdbcType="VARCHAR" />
+		<result column="HOSPITAL_ID" property="hospitalId"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<!--新增科室-->
+	<insert id="insertChairDepartment"
+		parameterType="com.baisui.BedSystem.entity.ChairDepartment">
+		insert into CHAIR.CHAIR_DEPARTMENT (ID, DEPARTMENT_NAME, HOSPITAL_ID
+		)
+		values (#{id,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR},
+		#{hospitalId,jdbcType=VARCHAR}
+		)
+	</insert>
+	<!--查询所有科室信息-->
+	<select id="selectAll" resultMap="BaseResultMap">
+		select ID, DEPARTMENT_NAME, HOSPITAL_ID
+		from CHAIR.CHAIR_DEPARTMENT
+	</select>
+	<!--根据医院id查询科室信息-->
+	<select id="selectByHospitalId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select 
+			ID, DEPARTMENT_NAME, HOSPITAL_ID
+		from 
+			CHAIR.CHAIR_DEPARTMENT
+		where
+			HOSPITAL_ID = #{id}
+	</select>
+		<!--修改科室-->
+	<update id="updateChairDepartment" parameterType="com.baisui.BedSystem.entity.ChairDepartment">
+		update CHAIR.CHAIR_DEPARTMENT
+		set ID = #{id},
+			DEPARTMENT_NAME =#{departmentName},
+			HOSPITAL_ID = #{hospitalId}
+	</update>
+
+	<!--根据id删除科室-->
+	<delete id="delteChairDepartment" parameterType="java.lang.String">
+		DELETE FROM CHAIR.CHAIR_DEPARTMENT
+		WHERE ID = #{id}
+	</delete>
+
+	<!--根据医院id删除科室-->
+	<delete id="delDepartmentByHospitalId" parameterType="java.lang.String">
+		DELETE FROM CHAIR.CHAIR_DEPARTMENT
+		WHERE HOSPITAL_ID = #{hospitalId}
+	</delete>
+
+
+	<!-- 根据医院id，来查询医院下面的科室，给下拉框动态选择用,用于修改科室下拉框动态加载数据对象 -->
+	<select id="selectDepartmentByHospitalId" parameterType="java.lang.String" resultType="com.baisui.BedSystem.entity.dto.Chair_DepartmentDTO">
+		SELECT
+		CHAIR_DEPARTMENT.ID id,
+		CHAIR_DEPARTMENT.DEPARTMENT_NAME departmentId
+		FROM
+		CHAIR.CHAIR_DEPARTMENT
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- 根据医院id查询医院科室 -->
+			<if test="h_id != null">and CHAIR_DEPARTMENT.HOSPITAL_ID = #{h_id}</if>
+		</trim>
+	</select>
+</mapper>

@@ -1,0 +1,80 @@
+.menu {
+  display: flex;
+}
+
+.nist {
+  width: 100%;
+  height: 544px;
+
+}
+
+
+
+.nist>div:nth-of-type(even) {
+  background-color: rgba(246, 246, 246, 1);
+}
+
+.particulars1 {
+  height: 85px;
+  display: flex;
+  -webkit-flex-direction: row;
+  text-align: center;
+  line-height: 100px;
+  font-size: 16px;
+  border: solid 1px #0000;
+}
+
+.describe00 {
+  width: 12%;
+
+}
+
+.describe00>span {
+  width: 180px;
+
+}
+
+.describe01 {
+  width: 7.5%;
+
+
+}
+
+.describe02 {
+  width: 10%;
+
+}
+
+.describe03 {
+  width: 10%;
+
+}
+
+.describe03>span {
+  width: 150px;
+}
+
+.describe04 {
+  width: 12%;
+
+}
+
+.describe05 {
+  width: 11.2%;
+
+}
+
+.describe06 {
+  width: 14.1%;
+
+}
+
+.describe07 {
+  width: 8.5%;
+
+}
+
+.describe09 {
+  width: 14.75%;
+
+}

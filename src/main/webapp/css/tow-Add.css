@@ -1,0 +1,511 @@
+body {
+  background-color: #F7F7F7;
+  overflow-x: hidden;
+}
+
+.main {
+  width: 1580px;
+  height: 740px;
+  background: rgba(255, 255, 255, 1);
+  position: absolute;
+
+  top: 170px;
+}
+
+.main1 {
+  width: 100%;
+  height: 680px;
+
+
+}
+
+.seat_id {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 20px;
+  left: 76px;
+  font-size: 20px;
+}
+
+.seat_id input {
+  height: 28px;
+  width: 350px;
+}
+
+.hospital_name {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 65px;
+  left: 94px;
+  font-size: 20px;
+
+}
+
+.hospital_name input {
+  height: 28px;
+  width: 350px;
+  
+}
+
+.Hospital_category {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 110px;
+  left: 94px;
+  font-size: 20px;
+
+}
+
+.Hospital_category input {
+  height: 28px;
+  width: 350px;
+  
+}
+
+
+
+
+
+.form-inline {
+  height: 28px;
+  width: 350px;
+  position: relative;
+  left: 104px;
+
+}
+
+.linkman {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 165px;
+  left: 94px;
+  font-size: 20px;
+}
+
+.linkman input {
+  height: 28px;
+  width: 350px;
+ 
+}
+
+.shoping {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 220px;
+  left: 100px;
+  font-size: 20px;
+}
+
+.shoping input {
+  height: 28px;
+  width: 350px;
+  padding-left: 14px;
+ 
+}
+
+.amount {
+  width: 704px;
+  height: 35px;
+  position: absolute;
+  top: 275px;
+  left: 100px;
+  font-size: 20px;
+}
+
+.amount input {
+  height: 28px;
+  width: 350px;
+
+}
+
+.texture {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 395px;
+  left: 80px;
+  font-size: 20px;
+}
+
+.texture input {
+  height: 28px;
+  width: 350px;
+  
+}
+
+.length {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 455px;
+  left: 80px;
+  font-size: 20px;
+}
+
+.length input {
+  height: 28px;
+  width: 350px;
+  
+}
+
+.width {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 512px;
+  left: 80px;
+  font-size: 20px;
+}
+
+.width input {
+  height: 28px;
+  width: 350px;
+
+}
+
+.heigth {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 570px;
+  left: 80px;
+  font-size: 20px;
+}
+
+.heigth input {
+  height: 28px;
+  width: 350px;
+}
+
+.bedwidth {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 20px;
+  left: 850px;
+  font-size: 20px;
+}
+
+.bedwidth input {
+  height: 28px;
+  width: 350px;
+}
+
+.bedlenth {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 60px;
+  left: 850px;
+  font-size: 20px;
+}
+
+.bedlenth input {
+  height: 25px;
+  width: 350px;
+}
+
+.bedheigth {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 110px;
+  left: 850px;
+  font-size: 20px;
+}
+
+.bedheigth input {
+  height: 28px;
+  width: 350px;
+}
+
+.weight {
+  width: 690px;
+  height: 40px;
+  position: absolute;
+  top: 170px;
+  left: 882px;
+
+  font-size: 20px;
+}
+
+.weight input {
+  height: 28px;
+  width: 350px;
+}
+
+.time {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 220px;
+  left: 860px;
+  font-size: 20px;
+}
+
+.time input {
+  height: 28px;
+  width: 350px;
+}
+
+.price {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 275px;
+  left: 866px;
+  font-size: 20px;
+}
+
+.price input {
+  height: 28px;
+  width: 350px;
+}
+
+.data {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 330px;
+  left: 885px;
+  font-size: 20px;
+}
+
+.data input {
+  height: 28px;
+  width: 350px;
+  padding-left:15px;
+}
+
+.number {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 395px;
+  left: 890px;
+  font-size: 20px;
+}
+
+.number input {
+  height: 28px;
+  width: 350px;
+}
+
+.type {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 455px;
+  left: 890px;
+  font-size: 20px;
+}
+
+.type input {
+  height: 28px;
+  width: 350px;
+}
+
+.Standby {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 385px;
+  left: 803px;
+  font-size: 20px;
+}
+
+.Standby input {
+  height: 28px;
+  width: 350px;
+}
+
+.sell {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 442px;
+  left: 825px;
+  font-size: 20px;
+}
+
+.sell input {
+  height: 28px;
+  width: 350px;
+}
+
+.sellphone {
+  width: 690px;
+  height: 35px;
+  position: absolute;
+  top: 500px;
+  left: 745px;
+  font-size: 20px;
+}
+
+.sellphone input {
+  height: 28px;
+  width: 350px;
+}
+
+
+.phone {
+  width: 690px;
+  height: 40px;
+  position: absolute;
+  top: 190px;
+  left: 1000px;
+  font-size: 20px;
+}
+
+.phone input {
+  height: 32px;
+  width: 350px;
+}
+
+.dizhi {
+  width: 690px;
+  height: 40px;
+  position: absolute;
+  top: 250px;
+  left: 1000px;
+  font-size: 20px;
+}
+
+.dizhi input {
+  height: 32px;
+  width: 450px;
+}
+
+.Date {
+  width: 690px;
+  height: 40px;
+  position: absolute;
+  top: 300px;
+  left: 1000px;
+  font-size: 20px;
+}
+
+.Date input {
+  height: 32px;
+  width: 350px;
+}
+
+.daoqi {
+  width: 690px;
+  height: 40px;
+  position: absolute;
+  top: 350px;
+  left: 1040px;
+  font-size: 20px
+}
+
+.daoqi input {
+  height: 32px;
+  width: 350px;
+}
+
+#yiyuanxinxi {
+  width: 190px;
+  height: 40px;
+  position: absolute;
+  bottom: 20px;
+  right: 175px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(9, 182, 153, 1);
+  border-radius: 2px;
+}
+
+
+
+
+.submenu {
+  width: 80%;
+  height: 150px;
+
+  position: absolute;
+  top: 20px;
+  left: 100px;
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 2px;
+}
+
+.submenu button {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 140px;
+  height: 45px;
+  color: #fff;
+}
+
+
+
+.main>button {
+  width: 190px;
+  height: 45px;
+  position: absolute;
+  right: 172px;
+  bottom: -10px;
+  background: rgba(9, 182, 153, 1);
+  border-radius: 2px;
+  color: #fff;
+}
+
+#city-picker3 {
+  border: solid 1px #ccc;
+
+}
+
+.shuliang {
+  width: 690px;
+  height: 40px;
+  position: absolute;
+  top: 330px;
+  left: 80px;
+  font-size: 20px;
+}
+
+.shuliang input {
+  height: 28px;
+  width: 350px;
+  
+}
+
+.Binding_state1{
+  position: absolute;
+  left: 890px;
+  top: 20px;
+  width: 690px;
+  height: 40px;
+  font-size: 20px;
+}
+/*#select_box{*/
+  /*height: 28px;*/
+  /*width: 350px;*/
+/*}*/
+.Binding_state2{
+  position: absolute;
+  left: 908px;
+  top: 70px;
+  width: 690px;
+  height: 40px;
+  font-size: 20px;
+}
+select{
+  height: 28px;
+  width: 350px;
+}
+.Binding_state3{
+  position: absolute;
+  left: 908px;
+  top: 120px;
+  width: 690px;
+  height: 40px;
+  font-size: 20px;
+}

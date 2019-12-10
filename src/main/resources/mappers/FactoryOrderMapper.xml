@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.FactoryOrderMapper">
+  <resultMap id="BaseResultMap" type="com.baisui.BedSystem.entity.FactoryOrder">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="UNIT_PRICES" jdbcType="DECIMAL" property="unitPrices" />
+    <result column="COUNT" jdbcType="DECIMAL" property="count" />
+    <result column="TOTAL_PRICES" jdbcType="DECIMAL" property="totalPrices" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, UNIT_PRICES, COUNT, TOTAL_PRICES, CREATE_TIME, UPDATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.baisui.BedSystem.entity.dto.Chair_FactoryOrder_DTO">
+    SELECT 	fo.ID id,
+              fo.CODE code,
+              fa.NAME name,
+              fa.UNIT_PRICES unitPrices,
+              fo.COUNT count,
+              fo.TOTAL_PRICES totalPrices,
+              fo.CREATE_TIME createTime,
+              fo.UPDATE_TIME updateTime,
+              fo.ID details
+    FROM  FACTORY_ORDER fo
+    LEFT JOIN FACTORY fa
+    on	fa.ID=fo.FACTORY_ID
+    where fo.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 查询厂商订单（单表查询） -->
+ <!--  <select id="findAllOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+  		<include refid="Base_Column_List" />
+	FROM
+		CHAIR.FACTORY_ORDER
+  </select> -->
+   <!-- 查询厂商订单（连表查） -->
+  <select id="findAllOrder" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.Chair_FactoryOrder_DTO">
+  		SELECT 	fo.ID id,
+				fo.CODE code,
+				fa.NAME name,
+				fa.UNIT_PRICES unitPrices,
+				fo.COUNT count,
+				fo.TOTAL_PRICES totalPrices,
+				fo.CREATE_TIME createTime,
+				fo.UPDATE_TIME updateTime,
+				fo.ID details
+		FROM  FACTORY_ORDER fo
+		LEFT JOIN FACTORY fa
+		on	fa.ID=fo.FACTORY_ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- ID查询 -->
+			<if test="details != null">and fo.ID = #{details}</if>
+			<!-- 订单编码查询 -->
+			<if test="code != null">and fo.CODE = #{code}</if>
+			<!-- 厂商名称查找 -->
+			<if test="name != null">and fa.NAME = #{name}</if>
+		</trim>
+  </select>
+
+
+  <select id="findFactoryByid" parameterType="string" resultType="com.baisui.BedSystem.entity.dto.Chair_FactoryOrder_DTO">
+    SELECT 	fo.ID id,
+    fo.CODE code,
+    fa.NAME name,
+    fa.UNIT_PRICES unitPrices,
+    fo.COUNT count,
+    fo.TOTAL_PRICES totalPrices,
+    fo.CREATE_TIME createTime,
+    fo.UPDATE_TIME updateTime,
+    fo.ID details
+    FROM  FACTORY_ORDER fo
+    LEFT JOIN FACTORY fa
+    on	fa.ID=fo.FACTORY_ID
+    WHERE
+        fa.ID = #{id ,jdbcType=VARCHAR}
+    <!--<trim prefix="where" prefixOverrides="and|or">-->
+      <!--&lt;!&ndash; ID查询 &ndash;&gt;-->
+      <!--<if test="details != null">and fo.ID = #{details}</if>-->
+      <!--&lt;!&ndash; 订单编码查询 &ndash;&gt;-->
+      <!--<if test="code != null">and fo.CODE = #{code}</if>-->
+      <!--&lt;!&ndash; 厂商名称查找 &ndash;&gt;-->
+      <!--<if test="name != null">and fa.NAME = #{name}</if>-->
+    <!--</trim>-->
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from FACTORY_ORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.baisui.BedSystem.entity.FactoryOrder">
+    insert into FACTORY_ORDER (ID, CODE, UNIT_PRICES, 
+      COUNT, TOTAL_PRICES, CREATE_TIME,
+      UPDATE_TIME,FACTORY_ID)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{unitPrices,jdbcType=DECIMAL}, 
+      #{count,jdbcType=DECIMAL}, #{totalPrices,jdbcType=DECIMAL}, #{createTime},
+      #{updateTime},#{factoryId})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.baisui.BedSystem.entity.FactoryOrder">
+    insert into FACTORY_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="unitPrices != null">
+        UNIT_PRICES,
+      </if>
+      <if test="count != null">
+        COUNT,
+      </if>
+      <if test="totalPrices != null">
+        TOTAL_PRICES,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrices != null">
+        #{unitPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrices != null">
+        #{totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.baisui.BedSystem.entity.FactoryOrder">
+    update FACTORY_ORDER
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrices != null">
+        UNIT_PRICES = #{unitPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        COUNT = #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrices != null">
+        TOTAL_PRICES = #{totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.baisui.BedSystem.entity.FactoryOrder">
+    update FACTORY_ORDER
+    set CODE = #{code,jdbcType=VARCHAR},
+      UNIT_PRICES = #{unitPrices,jdbcType=DECIMAL},
+      COUNT = #{count,jdbcType=DECIMAL},
+      TOTAL_PRICES = #{totalPrices,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,103 @@
+.head a {
+  width: 180px;
+}
+
+.content_input>span {
+  position: absolute;
+  top: 19px;
+  font-size: 17px;
+}
+
+.content_input .search_field {
+  position: absolute;
+  left: 100px;
+  top: 9px;
+}
+
+.content_input .search_btn {
+  position: absolute;
+  top: 10px;
+  left: 490px;
+}
+
+#one {
+  position: absolute;
+  top: 10px;
+  left: 650px;
+}
+
+.head div {
+  position: absolute;
+  right: 35px;
+  top: 100px;
+  width: 200px;
+  height: 30px;
+
+}
+
+#tow {
+  position: absolute;
+  left: 190px;
+  background-color: #fff;
+  top: -3px;
+}
+
+.tubiao2 {
+
+  position: absolute;
+  left: -212px;
+}
+
+.tubiao1 {
+
+  position: absolute;
+  left: 100px;
+  top: -4px;
+}
+
+.list div span {
+  width: 120px;
+
+}
+
+.describe1 {
+  margin-left: 10px;
+}
+
+.describe1 input {
+  position: absolute;
+
+  top: 25px;
+}
+
+#tubiao {
+  position: absolute;
+  left: 120px;
+  top: 4px;
+}
+
+.add-information0 span {
+  position: relative;
+  left: 35%;
+}
+
+#bth {
+  position: relative;
+  left: 63%;
+  top: 13%;
+  font-size: 25px;
+}
+
+#bth1 {
+  position: relative;
+  left: 83%;
+  top: 13%;
+  font-size: 25px;
+}
+
+.modal-content1 {
+  width: 838px;
+  height: 520px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+}

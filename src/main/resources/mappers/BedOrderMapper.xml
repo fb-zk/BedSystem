@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.BedOrderMapper">
+	<resultMap id="BaseResultMap"
+		type="com.baisui.BedSystem.entity.BedOrder">
+		<id column="BED_ORDER_ORDER_ID" jdbcType="VARCHAR"
+			property="orderId" />
+		<result column="BED_ORDER_USER_ID" jdbcType="VARCHAR"
+			property="userId" />
+		<result column="BED_ORDER_HOSPITAL_ID" jdbcType="VARCHAR"
+			property="hospitalId" />
+		<result column="BED_ORDER_DEPARTMENT_ID" jdbcType="VARCHAR"
+			property="departmentId" />
+		<result column="BED_ORDER_BED_ADDRESS" jdbcType="VARCHAR"
+			property="bedAddress" />
+		<result column="BED_ORDER_ROOM_ID" jdbcType="VARCHAR"
+			property="roomId" />
+		<result column="BED_ORDER_START_TIME" jdbcType="VARCHAR"
+			property="startTime" />
+		<result column="BED_ORDER_END_TIME" jdbcType="VARCHAR"
+			property="endTime" />
+		<result column="BED_ORDER_SERVICE_TIME" jdbcType="VARCHAR"
+			property="serviceTime" />
+		<result column="BED_ORDER_BILLING_TIME" jdbcType="VARCHAR"
+			property="billingTime" />
+		<result column="BED_ORDER_COST" jdbcType="VARCHAR"
+			property="cost" />
+		<result column="BED_ORDER_PAY_WAY" jdbcType="VARCHAR"
+			property="payWay" />
+		<result column="BED_ORDER_PAY_STATE" jdbcType="VARCHAR"
+			property="payState" />
+		<result column="BED_ORDER_CHAPERONAGE_BED_CODE"
+			jdbcType="VARCHAR" property="chaperonageBedCode" />
+		<result column="BED_ORDER_END_WAY" jdbcType="VARCHAR"
+			property="endWay" />
+		<result column="BED_ORDER_PAY_TIME" jdbcType="VARCHAR"
+			property="payTime" />
+		<result column="BED_ORDER_PROBLEM_DESCRIPTION"
+			jdbcType="VARCHAR" property="problemDescription" />
+		<result column="BED_ORDER_PROBLEM_STATE" jdbcType="VARCHAR"
+			property="problemState" />
+		<result column="BED_ORDER_NURSE_ID" jdbcType="VARCHAR"
+			property="nurseId" />
+		<result column="BED_ORDER_NURSE_PHONE" jdbcType="VARCHAR"
+			property="nursePhone" />
+		<result column="BED_ORDER_BED_IMAGE" jdbcType="VARCHAR"
+			property="bedImage" />
+		<result column="BED_ORDER_MAINTAIN_USER_ID" jdbcType="VARCHAR"
+			property="maintainUserId" />
+		<result column="BED_ORDER_CHECK_STATE" jdbcType="VARCHAR"
+			property="checkState" />
+		<result column="BED_ORDER_CHECK_TIME" jdbcType="VARCHAR"
+			property="checkTime" />
+		<result column="BED_ORDER_COMMIT_TIME" jdbcType="VARCHAR"
+			property="commitTime" />
+		<result column="BED_ORDER_PROBLEM_ID" jdbcType="VARCHAR"
+			property="problemId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		BED_ORDER.ORDER_ID as BED_ORDER_ORDER_ID, BED_ORDER.USER_ID
+		as BED_ORDER_USER_ID,
+		BED_ORDER.HOSPITAL_ID as BED_ORDER_HOSPITAL_ID,
+		BED_ORDER.DEPARTMENT_ID as BED_ORDER_DEPARTMENT_ID,
+		BED_ORDER.BED_ADDRESS as BED_ORDER_BED_ADDRESS, BED_ORDER.ROOM_ID as
+		BED_ORDER_ROOM_ID,
+		BED_ORDER.START_TIME as BED_ORDER_START_TIME,
+		BED_ORDER.END_TIME as BED_ORDER_END_TIME,
+		BED_ORDER.SERVICE_TIME as
+		BED_ORDER_SERVICE_TIME,
+		BED_ORDER.BILLING_TIME as
+		BED_ORDER_BILLING_TIME,
+		BED_ORDER.COST as BED_ORDER_COST,
+		BED_ORDER.PAY_WAY as BED_ORDER_PAY_WAY,
+		BED_ORDER.PAY_STATE as
+		BED_ORDER_PAY_STATE,
+		BED_ORDER.CHAPERONAGE_BED_CODE as
+		BED_ORDER_CHAPERONAGE_BED_CODE,
+		BED_ORDER.END_WAY as BED_ORDER_END_WAY,
+		BED_ORDER.PAY_TIME as BED_ORDER_PAY_TIME,
+		BED_ORDER.PROBLEM_DESCRIPTION as
+		BED_ORDER_PROBLEM_DESCRIPTION,
+		BED_ORDER.PROBLEM_STATE as BED_ORDER_PROBLEM_STATE,
+		BED_ORDER.NURSE_ID as
+		BED_ORDER_NURSE_ID,
+		BED_ORDER.COMMIT_TIME as
+		BED_ORDER_COMMIT_TIME,
+		BED_ORDER.NURSE_PHONE as BED_ORDER_NURSE_PHONE,
+		BED_ORDER.BED_IMAGE as BED_ORDER_BED_IMAGE,
+		BED_ORDER.MAINTAIN_USER_ID
+		as BED_ORDER_MAINTAIN_USER_ID,
+		BED_ORDER.CHECK_STATE as
+		BED_ORDER_CHECK_STATE,
+		BED_ORDER.CHECK_TIME as BED_ORDER_CHECK_TIME,
+		BED_ORDER.PROBLEM_ID as BED_ORDER_PROBLEM_ID
+	</sql>
+	<select id="selectById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from 
+			EDOCTOR.BED_ORDER BED_ORDER
+		where 
+			BED_ORDER.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+	</select>
+	<update id="updateById"
+		parameterType="com.baisui.BedSystem.entity.BedOrder">
+		update 
+			EDOCTOR.BED_ORDER
+		<set>
+			<if test="userId != null">USER_ID = #{userId,jdbcType=VARCHAR},</if>
+			<if test="hospitalId != null">HOSPITAL_ID = #{hospitalId,jdbcType=VARCHAR},</if>
+			<if test="departmentId != null">DEPARTMENT_ID = #{departmentId,jdbcType=VARCHAR},</if>
+			<if test="bedAddress != null">BED_ADDRESS = #{bedAddress,jdbcType=VARCHAR},</if>
+			<if test="roomId != null">ROOM_ID = #{roomId,jdbcType=VARCHAR},</if>
+			<if test="startTime != null">START_TIME = #{startTime,jdbcType=VARCHAR},</if>
+			<if test="endTime != null">END_TIME = #{endTime,jdbcType=VARCHAR},</if>
+			<if test="serviceTime != null">SERVICE_TIME = #{serviceTime,jdbcType=VARCHAR},</if>
+			<if test="billingTime != null">BILLING_TIME = #{billingTime,jdbcType=VARCHAR},</if>
+			<if test="cost != null">COST = #{cost,jdbcType=VARCHAR},</if>
+			<if test="payWay != null">PAY_WAY = #{payWay,jdbcType=VARCHAR},</if>
+			<if test="payState != null">PAY_STATE = #{payState,jdbcType=VARCHAR},</if>
+			<if test="chaperonageBedCode != null">CHAPERONAGE_BED_CODE = #{chaperonageBedCode,jdbcType=VARCHAR},</if>
+			<if test="endWay != null">END_WAY = #{endWay,jdbcType=VARCHAR},</if>
+			<if test="payTime != null">PAY_TIME = #{payTime,jdbcType=VARCHAR},</if>
+			<if test="problemDescription != null">PROBLEM_DESCRIPTION = #{problemDescription,jdbcType=VARCHAR},</if>
+			<if test="problemState != null">PROBLEM_STATE = #{problemState,jdbcType=VARCHAR},</if>
+			<if test="nurseId != null">NURSE_ID = #{nurseId,jdbcType=VARCHAR},</if>
+			<if test="nursePhone != null">NURSE_PHONE = #{nursePhone,jdbcType=VARCHAR},</if>
+			<if test="bedImage != null">BED_IMAGE = #{bedImage,jdbcType=VARCHAR},</if>
+			<if test="maintainUserId != null">MAINTAIN_USER_ID = #{maintainUserId,jdbcType=VARCHAR},</if>
+			<if test="checkState != null">CHECK_STATE = #{checkState,jdbcType=VARCHAR},</if>
+			<if test="checkTime != null">CHECK_TIME = #{checkTime,jdbcType=VARCHAR},</if>
+		</set>
+		where
+			BED_ORDER.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.baisui.BedSystem.entity.BedOrder">
+		update EDOCTOR.BED_ORDER
+		<set>
+			<if test="userId != null">
+				USER_ID = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="hospitalId != null">
+				HOSPITAL_ID = #{hospitalId,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID = #{departmentId,jdbcType=VARCHAR},
+			</if>
+			<if test="bedAddress != null">
+				BED_ADDRESS = #{bedAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="roomId != null">
+				ROOM_ID = #{roomId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				START_TIME = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				END_TIME = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceTime != null">
+				SERVICE_TIME = #{serviceTime,jdbcType=VARCHAR},
+			</if>
+			<if test="billingTime != null">
+				BILLING_TIME = #{billingTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cost != null">
+				COST = #{cost,jdbcType=VARCHAR},
+			</if>
+			<if test="payWay != null">
+				PAY_WAY = #{payWay,jdbcType=VARCHAR},
+			</if>
+			<if test="payState != null">
+				PAY_STATE = #{payState,jdbcType=VARCHAR},
+			</if>
+			<if test="chaperonageBedCode != null">
+				CHAPERONAGE_BED_CODE =
+				#{chaperonageBedCode,jdbcType=VARCHAR},
+			</if>
+			<if test="endWay != null">
+				END_WAY = #{endWay,jdbcType=VARCHAR},
+			</if>
+			<if test="payTime != null">
+				PAY_TIME = #{payTime,jdbcType=VARCHAR},
+			</if>
+			<if test="problemDescription != null">
+				PROBLEM_DESCRIPTION =
+				#{problemDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="problemState != null">
+				PROBLEM_STATE = #{problemState,jdbcType=VARCHAR},
+			</if>
+			<if test="nurseId != null">
+				NURSE_ID = #{nurseId,jdbcType=VARCHAR},
+			</if>
+			<if test="nursePhone != null">
+				NURSE_PHONE = #{nursePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="bedImage != null">
+				BED_IMAGE = #{bedImage,jdbcType=VARCHAR},
+			</if>
+			<if test="maintainUserId != null">
+				MAINTAIN_USER_ID = #{maintainUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="checkState != null">
+				CHECK_STATE = #{checkState,jdbcType=VARCHAR},
+			</if>
+			<if test="checkTime != null">
+				CHECK_TIME = #{checkTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据用户id查看对应订单 -->
+	<select id="findByUserIdList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedOrderCountDTO">
+		SELECT
+			province.NAME province,
+			city.NAME city,
+			country.NAME country,
+			bh.NAME hospitalName,
+			bi.CHAPERONAGE_BED_CODE bedCode,
+			bs.NAME departmentName,
+			bo.ORDER_ID orderId,
+			ui.MOBILENO userPhone,
+			bo.START_TIME startTime,
+			bo.END_TIME endTime,
+			bo.SERVICE_TIME serviceTime,
+			bo.COST cost,
+			bo.PAY_STATE payState
+		FROM
+			EDOCTOR.BED_ORDER bo
+		LEFT JOIN
+			EDOCTOR.USER_INFO ui
+			ON bo.USER_ID = ui.ID
+		LEFT JOIN
+			EDOCTOR.BED_INFO bi
+			ON bo.CHAPERONAGE_BED_CODE = bi.CHAPERONAGE_BED_CODE
+		LEFT JOIN
+			EDOCTOR.BASE_HOSPITAL bh
+			ON bi.HOSPITAL_ID = bh.ID
+		LEFT JOIN
+			EDOCTOR.BASE_PROVINCECITYAREA province
+			ON bh.PROVINCE = province.CODE
+		LEFT JOIN
+			EDOCTOR.BASE_PROVINCECITYAREA city
+			ON bh.CITY = city.CODE
+		LEFT JOIN
+			EDOCTOR.BASE_PROVINCECITYAREA country
+			ON bh.COUNTRY = country.CODE
+		LEFT JOIN
+			EDOCTOR.BASE_SUBJECTCONTENTS bs
+			ON bi.DEPARTMENT_ID=bs.ID
+		WHERE
+			ui.MOBILENO = #{userPhone,jdbcType=NUMERIC}
+	</select>
+	
+</mapper>

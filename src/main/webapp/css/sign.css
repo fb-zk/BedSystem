@@ -1,0 +1,20 @@
+.content_input .search_btn {
+  position: absolute;
+  left: 520px;
+
+}
+
+.search_btn1 {
+  line-height: 30px;
+  color: #ffff;
+  font-size: 19px;
+  border: none;
+  position: absolute;
+  left: 720px;
+  top: 14px;
+  border-radius: 6px;
+  width: 131px;
+  height: 46px;
+  background: rgba(82, 206, 185, 1);
+  border-radius: 4px;
+}

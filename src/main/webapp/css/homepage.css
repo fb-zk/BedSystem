@@ -1,0 +1,137 @@
+.main {
+  height: 630px;
+  width: 1530px;
+
+  position: absolute;
+  top: 180px;
+  left: 350px;
+  display: flex;
+  display: wrap;
+  align-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+div {
+  margin: 20px;
+  background-color: #fff;
+  padding-left: 30px;
+  position: relative;
+}
+
+div i {
+  width: 30px;
+  height: 3px;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0);
+}
+
+div li {
+
+
+  font-size: 17px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+}
+
+.submenu1 {
+  height: 163px;
+  flex: 20%;
+  margin: 20px;
+}
+
+.submenu1>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu2 {
+  height: 163px;
+  ;
+  flex: 20%;
+}
+
+.submenu2>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu3 {
+  height: 163px;
+
+  flex: 20%;
+}
+
+.submenu3>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu4 {
+  height: 163px;
+
+  flex: 20%;
+}
+
+.submenu4>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu5 {
+  height: 163px;
+
+  flex: 20%;
+}
+
+.submenu5>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu6 {
+  height: 163px;
+
+  flex: 20%;
+}
+
+.submenu6>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu7 {
+  height: 163px;
+
+  flex: 20%;
+}
+
+.submenu7>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.submenu8 {
+  height: 163px;
+
+  flex: 20%;
+}
+
+.submenu8>span {
+  position: absolute;
+  top: 50px;
+  left: 288px;
+}
+
+.Administrator {
+  width: 170px;
+  top: 8px;
+}

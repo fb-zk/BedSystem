@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.ChairInfoMapper">
+  <resultMap id="BaseResultMap" type="com.baisui.BedSystem.entity.ChairInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="LOCK_STATE" jdbcType="VARCHAR" property="lockState" />
+    <result column="BINDING_STATE" jdbcType="VARCHAR" property="bindingState" />
+    <result column="LENGTH" jdbcType="VARCHAR" property="length" />
+    <result column="WIDTH" jdbcType="VARCHAR" property="width" />
+    <result column="HEIGHT" jdbcType="VARCHAR" property="height" />
+    <result column="MAX_LOAD" jdbcType="VARCHAR" property="maxLoad" />
+    <result column="MAX_USE_COUNT" jdbcType="VARCHAR" property="maxUseCount" />
+    <result column="TEXTURE" jdbcType="VARCHAR" property="texture" />
+    <result column="PRODUCE_TIME" jdbcType="VARCHAR" property="produceTime" />
+    <result column="PROTECT_TIME" jdbcType="VARCHAR" property="protectTime" />
+    <result column="LOCK_TYPE" jdbcType="VARCHAR" property="lockType" />
+    <result column="POWER_LENGTH" jdbcType="VARCHAR" property="powerLength" />
+    <result column="SALESPERSON_NAME" jdbcType="VARCHAR" property="salespersonName" />
+    <result column="SALESPERSON_PHONE" jdbcType="VARCHAR" property="salespersonPhone" />
+    <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+    <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId" />
+    <result column="FACTORY_ID" jdbcType="VARCHAR" property="factoryId" />
+    <result column="DEPARTMENT_ID" jdbcType="VARCHAR" property="departmentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, LOCK_STATE, BINDING_STATE, LENGTH, WIDTH, HEIGHT, MAX_LOAD, MAX_USE_COUNT, 
+    TEXTURE, PRODUCE_TIME, PROTECT_TIME, LOCK_TYPE, POWER_LENGTH, SALESPERSON_NAME, SALESPERSON_PHONE, 
+    CREATE_TIME, UPDATE_TIME, HOSPITAL_ID, FACTORY_ID, DEPARTMENT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CHAIR.CHAIR_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectChairByid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CHAIR.CHAIR_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  	<!-- 查询所有陪护椅 -->
+  <select id="selectAllChair" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+	    <include refid="Base_Column_List" />
+    from
+    	CHAIR.CHAIR_INFO
+    <!-- where ID = #{id,jdbcType=VARCHAR} -->
+    <trim prefix="where" prefixOverrides="and/or">
+		<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(code)">and CODE like '%${code}%'</if>
+	</trim>
+  </select>
+  <!-- 陪护首页椅展示界面用 -->
+  <select id="selectBindingChair" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.Chair_BindDTO">
+  		SELECT
+  			ch.ID id,
+  			ch.CODE code,
+  			ba.NAME hospitalName,
+  			cd.DEPARTMENT_NAME departmentName,
+  			fa.NAME factoryName,
+  			fa.UNIT_PRICES unitPrices,
+  			ch.PRODUCE_TIME produceTime,
+  			ch.PROTECT_TIME protectTime,
+  			ch.BINDING_STATE bindingState,
+  			ch.LOCK_STATE lockState,
+  			ch.ID details
+		FROM
+			CHAIR.CHAIR_INFO ch
+		LEFT JOIN
+			CHAIR.BASE_HOSPITAL ba
+			ON ch.HOSPITAL_ID = ba.ID
+		LEFT JOIN
+			CHAIR.CHAIR_DEPARTMENT cd
+			ON ch.DEPARTMENT_ID = cd.ID
+			
+		LEFT JOIN
+			CHAIR.FACTORY fa
+			ON ch.FACTORY_ID = fa.ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- 绑定状态查找	陪护椅绑定状态（绑定医院，0.未绑定，1.已绑定) -->
+			<if test="bindingState != null">and ch.BINDING_STATE = #{bindingState}</if>
+			<!-- 陪护椅编码查找 -->
+			<if test="code != null">and ch.CODE = #{code}</if>
+			<!-- 陪护椅厂商查找 -->
+			<if test="factoryName != null">and fa.NAME = #{factoryName}</if>
+			<!-- 医院名称查找 -->
+			<if test="hospitalName != null">and ba.NAME = #{hospitalName}</if>
+			<!-- 医院科室 -->
+			<if test="departmentName != null">and cd.DEPARTMENT_NAME = #{departmentName}</if>
+		</trim>
+  </select>
+  
+  
+  <!-- 陪护椅详细界面展示用 -->
+  <select id="selectChairToDetail" parameterType="java.lang.String" resultType="com.baisui.BedSystem.entity.dto.Chair_EchoDTO">
+		SELECT
+  			ch.ID id,
+  			ch.CODE code,
+  			ba.NAME hospitalId,
+  			cd.DEPARTMENT_NAME departmentId,
+  			fa.NAME factoryId,
+			ch.LENGTH length,
+			ch.WIDTH width,
+			ch.HEIGHT height,
+			ch.MAX_LOAD	maxLoad,
+			ch.MAX_USE_COUNT maxUseCount,
+			ch.TEXTURE texture,
+			fa.UNIT_PRICES unitPrices,
+			ch.PRODUCE_TIME produceTime,
+			ch.PROTECT_TIME protectTime,
+			ch.BINDING_STATE bindingState,
+			ch.LOCK_STATE lockState,
+			ch.LOCK_TYPE lockType,
+			ch.POWER_LENGTH powerLength,
+			ch.SALESPERSON_NAME salespersonName,
+			ch.SALESPERSON_PHONE salespersonPhone
+		FROM
+			CHAIR.CHAIR_INFO ch
+		LEFT JOIN
+			CHAIR.BASE_HOSPITAL ba
+			ON ch.HOSPITAL_ID = ba.ID
+		LEFT JOIN
+			CHAIR.CHAIR_DEPARTMENT cd
+			ON ch.DEPARTMENT_ID = cd.ID
+		LEFT JOIN
+			CHAIR.FACTORY fa
+			ON ch.FACTORY_ID = fa.ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- 根据uuid 查找-->
+			<if test="id != null">and ch.ID = #{id}</if>
+		</trim>
+  </select>
+  
+<!--   <delete id="deleteByPrimaryKey" parameterType="String[]">
+    delete from CHAIR.CHAIR_INFO
+    <where> 类似id in(1,2,3)
+		CHAIR_INFO.ID
+		<foreach collection="array" item="CHAIR_INFO.ID" open="in (" close=")" separator=",">
+			#{id}
+		</foreach>
+	</where>
+  </delete> -->
+  
+  
+  <delete id="deleteChairByid" parameterType="java.lang.String">
+    delete from CHAIR.CHAIR_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.baisui.BedSystem.entity.ChairInfo">
+    insert into CHAIR.CHAIR_INFO (ID, CODE, LOCK_STATE, 
+      BINDING_STATE, LENGTH, WIDTH, 
+      HEIGHT, MAX_LOAD, MAX_USE_COUNT, 
+      TEXTURE, PRODUCE_TIME, PROTECT_TIME, 
+      LOCK_TYPE, POWER_LENGTH, SALESPERSON_NAME, 
+      SALESPERSON_PHONE, CREATE_TIME, UPDATE_TIME, 
+      HOSPITAL_ID, FACTORY_ID, DEPARTMENT_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{lockState,jdbcType=VARCHAR}, 
+      #{bindingState,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, 
+      #{height,jdbcType=VARCHAR}, #{maxLoad,jdbcType=VARCHAR}, #{maxUseCount,jdbcType=VARCHAR}, 
+      #{texture,jdbcType=VARCHAR}, #{produceTime,jdbcType=TIMESTAMP}, #{protectTime,jdbcType=VARCHAR}, 
+      #{lockType,jdbcType=VARCHAR}, #{powerLength,jdbcType=VARCHAR}, #{salespersonName,jdbcType=VARCHAR}, 
+      #{salespersonPhone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{hospitalId,jdbcType=VARCHAR}, #{factoryId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="saveChair" parameterType="com.baisui.BedSystem.entity.ChairInfo">
+    insert into CHAIR.CHAIR_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="lockState != null">
+        LOCK_STATE,
+      </if>
+      <if test="bindingState != null">
+        BINDING_STATE,
+      </if>
+      <if test="length != null">
+        LENGTH,
+      </if>
+      <if test="width != null">
+        WIDTH,
+      </if>
+      <if test="height != null">
+        HEIGHT,
+      </if>
+      <if test="maxLoad != null">
+        MAX_LOAD,
+      </if>
+      <if test="maxUseCount != null">
+        MAX_USE_COUNT,
+      </if>
+      <if test="texture != null">
+        TEXTURE,
+      </if>
+      <if test="produceTime != null">
+        PRODUCE_TIME,
+      </if>
+      <if test="protectTime != null">
+        PROTECT_TIME,
+      </if>
+      <if test="lockType != null">
+        LOCK_TYPE,
+      </if>
+      <if test="powerLength != null">
+        POWER_LENGTH,
+      </if>
+      <if test="salespersonName != null">
+        SALESPERSON_NAME,
+      </if>
+      <if test="salespersonPhone != null">
+        SALESPERSON_PHONE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="hospitalId != null">
+        HOSPITAL_ID,
+      </if>
+      <if test="factoryId != null">
+        FACTORY_ID,
+      </if>
+      <if test="departmentId != null">
+        DEPARTMENT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="lockState != null">
+        #{lockState,jdbcType=VARCHAR},
+      </if>
+      <if test="bindingState != null">
+        #{bindingState,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="maxLoad != null">
+        #{maxLoad,jdbcType=VARCHAR},
+      </if>
+      <if test="maxUseCount != null">
+        #{maxUseCount,jdbcType=VARCHAR},
+      </if>
+      <if test="texture != null">
+        #{texture,jdbcType=VARCHAR},
+      </if>
+      <if test="produceTime != null">
+        #{produceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="protectTime != null">
+        #{protectTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lockType != null">
+        #{lockType,jdbcType=VARCHAR},
+      </if>
+      <if test="powerLength != null">
+        #{powerLength,jdbcType=VARCHAR},
+      </if>
+      <if test="salespersonName != null">
+        #{salespersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="salespersonPhone != null">
+        #{salespersonPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hospitalId != null">
+        #{hospitalId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null">
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.baisui.BedSystem.entity.ChairInfo">
+    update CHAIR.CHAIR_INFO
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="lockState != null">
+        LOCK_STATE = #{lockState,jdbcType=VARCHAR},
+      </if>
+      <if test="bindingState != null">
+        BINDING_STATE = #{bindingState,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        LENGTH = #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        WIDTH = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        HEIGHT = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="maxLoad != null">
+        MAX_LOAD = #{maxLoad,jdbcType=VARCHAR},
+      </if>
+      <if test="maxUseCount != null">
+        MAX_USE_COUNT = #{maxUseCount,jdbcType=VARCHAR},
+      </if>
+      <if test="texture != null">
+        TEXTURE = #{texture,jdbcType=VARCHAR},
+      </if>
+      <if test="produceTime != null">
+        PRODUCE_TIME = #{produceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="protectTime != null">
+        PROTECT_TIME = #{protectTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lockType != null">
+        LOCK_TYPE = #{lockType,jdbcType=VARCHAR},
+      </if>
+      <if test="powerLength != null">
+        POWER_LENGTH = #{powerLength,jdbcType=VARCHAR},
+      </if>
+      <if test="salespersonName != null">
+        SALESPERSON_NAME = #{salespersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="salespersonPhone != null">
+        SALESPERSON_PHONE = #{salespersonPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hospitalId != null">
+        HOSPITAL_ID = #{hospitalId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null">
+        FACTORY_ID = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        DEPARTMENT_ID = #{departmentId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateChair" parameterType="com.baisui.BedSystem.entity.ChairInfo">
+    update CHAIR.CHAIR_INFO
+    set CODE = #{code,jdbcType=VARCHAR},
+      LOCK_STATE = #{lockState,jdbcType=VARCHAR},
+      BINDING_STATE = #{bindingState,jdbcType=VARCHAR},
+      LENGTH = #{length,jdbcType=VARCHAR},
+      WIDTH = #{width,jdbcType=VARCHAR},
+      HEIGHT = #{height,jdbcType=VARCHAR},
+      MAX_LOAD = #{maxLoad,jdbcType=VARCHAR},
+      MAX_USE_COUNT = #{maxUseCount,jdbcType=VARCHAR},
+      TEXTURE = #{texture,jdbcType=VARCHAR},
+      PRODUCE_TIME = #{produceTime,jdbcType=TIMESTAMP},
+      PROTECT_TIME = #{protectTime,jdbcType=VARCHAR},
+      LOCK_TYPE = #{lockType,jdbcType=VARCHAR},
+      POWER_LENGTH = #{powerLength,jdbcType=VARCHAR},
+      SALESPERSON_NAME = #{salespersonName,jdbcType=VARCHAR},
+      SALESPERSON_PHONE = #{salespersonPhone,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      HOSPITAL_ID = #{hospitalId,jdbcType=VARCHAR},
+      FACTORY_ID = #{factoryId,jdbcType=VARCHAR},
+      DEPARTMENT_ID = #{departmentId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

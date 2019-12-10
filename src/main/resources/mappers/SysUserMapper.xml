@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.SysUserMapper">
+
+	<!-- 分页查询用户 -->
+	<select id="selectUserByPage"
+			resultType="com.baisui.BedSystem.entity.dto.SysUserDto" parameterType="Map">
+		select
+		    s.ID id,
+			s.NAME name,
+			s.USERNAME userName,
+			s.MOBILENO mobileno,
+			s.PASSWORD passWord,
+			r.NAME roleName,
+			r.TYPE type
+		from
+			CHAIR.SYS_ADMIN_USER s
+		left join
+			CHAIR.SYS_ADMIN_ROLE r
+		on r.role_id = s.role_ids
+        <trim prefix="where" prefixOverrides="and|or">
+			<if test="name != null"> s.NAME like '%${name}%'</if>
+        </trim>
+		order by type
+	</select>
+
+	<!-- 页面 - 添加用户 -->
+	<insert id="insertInfo" parameterType="com.baisui.BedSystem.entity.vo.SysUserVo">
+		INSERT INTO
+			CHAIR.SYS_ADMIN_USER
+			(ID, USERNAME, PASSWORD, NAME, MOBILENO, ROLE_IDS, RESOURCE_IDS, CODE)
+		VALUES
+			(#{id}, #{username}, #{password},#{name},#{mobileno}, #{roleIds},
+			 #{resourceIds}, #{code})
+	</insert>
+
+	<!-- 删除用户 -->
+	<delete id="deleteUserById" parameterType="com.baisui.BedSystem.entity.SysUser">
+		delete from
+			CHAIR.SYS_ADMIN_USER
+		where
+			ID = #{id}
+	</delete>
+
+	<!--  新增用户  -->  
+    <insert id="insert" parameterType="com.baisui.BedSystem.entity.SysUser">
+        insert into CHAIR.SYS_ADMIN_USER(id, username, password, role_ids, mobileno, name,
+        resource_ids, code) 
+        values
+        (#{id, jdbcType=VARCHAR},
+         #{username, jdbcType=VARCHAR},
+         #{password, jdbcType=VARCHAR},
+         #{roleIds, jdbcType=VARCHAR},
+         #{mobileno, jdbcType=VARCHAR},
+         #{name, jdbcType=VARCHAR},
+         #{resourceIds, jdbcType=VARCHAR},
+         #{code, jdbcType=VARCHAR})
+    </insert>
+
+	<!-- 根据用户名和密码,查询用户 -->
+	<select id="selectUserByAccount" parameterType="java.util.Map"
+			resultType="com.baisui.BedSystem.entity.SysUser">
+		select ID as id,
+			   USERNAME as username,
+			   PASSWORD as password,
+			   NAME as name,
+			   MOBILENO as mobileno,
+			   ROLE_IDS as roleIds,
+			   RESOURCE_IDS as resourceIds,
+			   CODE as code
+		from CHAIR.SYS_ADMIN_USER
+		where USERNAME = #{username}
+		and  password= #{password}
+	</select>
+
+	<!-- 根据RoleIds删除用户 -->
+	<delete id="deleteByRoleIds" parameterType="String">
+		delete from CHAIR.SYS_ADMIN_USER
+		where ROLE_IDS = #{roleIds}
+	</delete>
+
+	<!-- 判断用户名是否存在 -->
+	<select id="queryNameExist" parameterType="String" resultType="com.baisui.BedSystem.entity.SysUser">
+		select
+			USERNAME as username
+		from
+		    CHAIR.SYS_ADMIN_USER
+		where
+			USERNAME = #{username}
+	</select>
+
+<!--	<select id="findByRoleIdList" parameterType="String" resultType="com.baisui.BedSystem.entity.SysUser">-->
+<!--		SELECT-->
+<!--			id as id,-->
+<!--			username as username,-->
+<!--			password as password,-->
+<!--			name as name,-->
+<!--			mobileno as mobileno,-->
+<!--			role_ids as roleIds,-->
+<!--			resource_ids as resourceIds,-->
+<!--			code as code-->
+<!--		FROM-->
+<!--		    SYS_ADMIN_USER-->
+<!--		WHERE-->
+<!--		    ROLE_IDS = #{roleIds ,jdbcType=VARCHAR}-->
+<!--	</select>-->
+
+	<select id="findByRoleIdLists" parameterType="String" resultType="com.baisui.BedSystem.entity.dto.SysUserDto">
+		select
+			s.ID id,
+			s.NAME name,
+			s.USERNAME userName,
+			s.MOBILENO mobileno,
+			s.PASSWORD passWord,
+			r.NAME roleName,
+			r.TYPE type
+		from
+			CHAIR.SYS_ADMIN_USER s
+				left join
+			CHAIR.SYS_ADMIN_ROLE r
+			on r.role_id = s.role_ids
+		WHERE
+			r.ROLE_ID = #{roleId ,jdbcType=VARCHAR}
+	</select>
+
+
+
+
+
+
+
+	<!-- 修改用户 -->
+	<update id="update"
+		parameterType="com.baisui.BedSystem.entity.SysUser">
+		update CHAIR.SYS_ADMIN_USER
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(username)">
+				username = #{username},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(roleIds)">
+				role_ids = #{roleIds},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(mobileno)">
+				mobileno = #{mobileno},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(name)">
+				name = #{name},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(resourceIds)">
+				resource_ids = #{resourceIds},
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(code)">
+				code = #{code}
+			</if>
+    	</trim>
+    	where id = #{id} 
+    </update>
+
+
+	<!-- 根据用户id,查询用户 -->
+    <select id="selectByUserId" resultType="com.baisui.BedSystem.entity.SysUser" parameterType="String">
+   		    select id as id, 
+   		    username as username, 
+   		    password as password, 
+   		    name as name, 
+   		    mobileno as mobileno, 
+   		    role_ids as roleIds, 
+   		    resource_ids as resourceIds, 
+   		    code as code    
+    		from CHAIR.SYS_ADMIN_USER
+    		where ID = #{userId}
+    </select>
+
+	<!-- 根据用户id,查询用户 -->
+	<select id="selectUserById" parameterType="Map"
+		resultType="com.baisui.BedSystem.entity.SysUser">
+		select id as id,
+		username as username,
+		password as password,
+		name as name,
+		mobileno as mobileno,
+		role_ids as roleIds,
+		resource_ids as resourceIds,
+		code as code
+		from CHAIR.SYS_ADMIN_USER
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+			<if test="@com.baisui.BedSystem.utils.StrUtils@isNotEmpty(code)">
+				and code = #{code}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 根据用户名,查询角色id -->
+	<select id="selectRoleIds" parameterType="String"
+		resultType="String">
+		select role_ids
+		from CHAIR.SYS_ADMIN_USER
+		where username = #{userName} 
+    </select>
+
+	<!-- 根据用户名,查询资源id -->
+	<select id="selectResourceIdsByUserName" parameterType="String">
+		select CHAIR.SYS_ADMIN_USER.resource_ids from CHAIR.SYS_ADMIN_USER where username =
+		#{userName}
+	</select>
+
+	<!-- 查询角色名称 -->
+	<select id="selectRoleNameByUserId" parameterType="String">
+		resultType="String">
+		select
+		name from CHAIR.SYS_ADMIN_ROLE
+		where
+		(
+		select
+		CHAIR.SYS_ADMIN_USER.role_ids
+		from
+		CHAIR.SYS_ADMIN_USER
+		where
+		CHAIR.SYS_ADMIN_USER.id = #{id}
+		) like concat(concat('%','sys_admin_role.role_id'),'%')
+	</select>
+
+	<!-- 修改密码 -->
+	<update id="changePassword" parameterType="Map">
+		update CHAIR.SYS_ADMIN_USER set password=#{password} where id=#{id}
+	</update>
+
+	<!-- 根据用户id,查询用户 -->
+
+    <select id="selectByUserName" resultType="com.baisui.BedSystem.entity.SysUser" parameterType="String">
+   		 select id as id,
+   		 username as username,
+   		 password as password,
+   		 name as name,
+   		 mobileno as mobileno,
+   		 role_ids as roleIds,
+   		 resource_ids as resourceIds,
+   		 code as code
+    	 from CHAIR.SYS_ADMIN_USER
+         where username = #{username}
+
+
+	</select>
+</mapper>

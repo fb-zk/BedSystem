@@ -1,0 +1,121 @@
+.content_input span {
+  position: absolute;
+  top: 22px;
+  left: 40px;
+  font-size: 20px;
+}
+
+.content_input .search_field {
+  line-height: 30px;
+  border: 1px solid #C7C7C8;
+  /* float: left; */
+  position: absolute;
+  left: 150px;
+  top: 15px;
+  border-radius: 6px;
+  padding-left: 8px;
+  width: 352px;
+  height: 46px;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(227, 227, 227, 1);
+  border-radius: 4px;
+  padding-left: 12px;
+}
+
+.content_input .search_btn {
+  line-height: 30px;
+  color: #ffff;
+  font-size: 19px;
+  border: none;
+  position: absolute;
+  left: 580px;
+  top: 14px;
+  border-radius: 6px;
+  width: 131px;
+  height: 46px;
+  background: rgba(82, 206, 185, 1);
+  border-radius: 4px;
+}
+
+#chongzhi {
+  position: absolute;
+  left: 800px;
+}
+
+#xiugai {
+  position: absolute;
+  left: 1030px;
+  top: 14px;
+  width: 131px;
+  height: 46px;
+  background: rgba(82, 206, 185, 1);
+  border-radius: 4px;
+  color: #fff;
+}
+
+#jurisdiction {
+  width: 668px;
+  height: 42px;
+  padding-left: 10px;
+  position: absolute;
+  left: 118px;
+  border-radius: 6px;
+  border: 1px solid rgba(228, 228, 228, 1);
+  margin-left: 20px
+}
+
+.add-information4 span {
+  position: relative;
+  left: -10px;
+}
+
+#name {
+  position: relative;
+  left: 35px;
+}
+
+#forbidden {
+  width: 668px;
+  height: 42px;
+  padding-left: 10px;
+  position: absolute;
+  left: 117px;
+  border-radius: 6px;
+  border: 1px solid rgba(228, 228, 228, 1);
+  margin-left: 20px
+}
+
+.add-information6 {
+  padding: 20px;
+  font-size: 18px;
+}
+
+.add-information6 span {
+  position: absolute;
+  left: 35px;
+  bottom: 145px;
+}
+
+#hospital {
+  width: 668px;
+  height: 42px;
+  padding-left: 10px;
+  position: absolute;
+  left: 137px;
+  border: 1px solid rgba(228, 228, 228, 1);
+}
+
+#roomId{
+	position:absolute;
+	left: 133px;
+    top: 209px;
+}
+
+#department {
+  width: 668px;
+  height: 42px;
+  padding-left: 10px;
+  position: absolute;
+  left: 137px;
+  border: 1px solid rgba(228, 228, 228, 1);
+}

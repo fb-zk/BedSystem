@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baisui.BedSystem.mapper.BedCountMapper">
+    <!-- 使用次数统计 -->
+	<select id="queryCountsList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedCountDTO">
+		SELECT 
+			bi.CODE bedCode,
+			bh.NAME hospitalName,
+			bs.DEPARTMENT_NAME departmentName,
+			bi.CREATE_TIME addTime,
+			count.counts counts,
+			count.usedTime usedTime,
+			count.cost cost
+		FROM
+			CHAIR.CHAIR_INFO bi
+		LEFT JOIN
+			CHAIR.BASE_HOSPITAL bh
+			ON bi.HOSPITAL_ID = bh.ID
+		LEFT JOIN
+			CHAIR.CHAIR_DEPARTMENT bs
+			ON bi.DEPARTMENT_ID=bs.ID
+		LEFT JOIN
+			(SELECT 
+				CODE bedCode,
+				count(ORDER_ID) counts,
+				sum(SERVICE_TIME) usedTime,
+				sum(COST) cost
+			FROM
+				CHAIR.CHAIR_ORDER
+			GROUP BY
+				CODE) count
+			ON count.bedCode = bi.CODE
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- <if test="@com.baisui.kxt.util.mybatis.Ognl@isNotEmpty(name)"> and t.name like '%${name}%'</if> -->
+			<!-- 根据陪护椅编号查询 -->
+			<if test="bedCode != null"> and bi.CODE like '%${bedCode}%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        '</if>
+			<!-- 根据医院名称查询 -->
+			<if test="hospitalName != null"> and bh.NAME like '%${hospitalName}%'</if>
+			<!-- 根据科室名称 -->
+			<if test="departmentName != null"> and bs.DEPARTMENT_NAME like '%${departmentName}%'</if>
+		</trim>
+		ORDER BY 
+			bi.CREATE_TIME DESC
+	</select>
+
+	<!-- 订单统计 -->
+	<select id="queryOrderCountList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedOrderCountDTO">
+		SELECT 
+			province.NAME province,
+			city.NAME city,
+			country.NAME country,
+			bh.NAME hospitalName,
+			bi.CODE bedCode,
+			bs.DEPARTMENT_NAME departmentName,
+			bo.ORDER_ID orderId,
+			ui.MOBILENO userPhone,
+			bo.START_TIME startTime,
+			bo.END_TIME endTime,
+			bo.SERVICE_TIME serviceTime,
+			bo.COST cost,
+			bo.PAY_STATE payState
+		FROM
+			CHAIR.CHAIR_ORDER bo
+		LEFT JOIN
+			CHAIR.USER_INFO ui
+			ON bo.USER_ID = ui.ID
+		LEFT JOIN
+			CHAIR.CHAIR_INFO bi
+			ON bo.CODE = bi.CODE
+		LEFT JOIN
+			CHAIR.BASE_HOSPITAL bh
+			ON bi.HOSPITAL_ID = bh.ID
+		LEFT JOIN
+			CHAIR.BASE_PROVINCECITYAREA province
+			ON bh.PROVINCE = province.CODE
+		LEFT JOIN
+			CHAIR.BASE_PROVINCECITYAREA city
+			ON bh.CITY = city.CODE
+		LEFT JOIN
+			CHAIR.BASE_PROVINCECITYAREA country
+			ON bh.COUNTRY = country.CODE
+		LEFT JOIN
+			CHAIR.CHAIR_DEPARTMENT bs
+			ON bi.DEPARTMENT_ID=bs.ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- <if test="@com.baisui.kxt.util.mybatis.Ognl@isNotEmpty(name)"> and t.name like '%${name}%'</if> -->
+			<!-- 根据省查询 -->
+			<if test="province != null">and bh.province = #{province}</if>
+			<!-- 根据市查询 -->
+			<if test="city != null">and bh.city = #{city}</if>
+			<!-- 根据县查询 -->
+			<if test="country != null">and bh.country = #{country}</if>
+			<!-- 根据医院名称查询 -->
+			<if test="hospitalName != null"> and bh.NAME like '%${hospitalName}%'</if>
+			<!-- 根据科室名称 -->
+			<if test="departmentName != null"> and bs.DEPARTMENT_NAME like '%${departmentName}%'</if>
+			<!-- 根据陪护椅编号查询 -->
+			<if test="bedCode != null"> and bi.CODE like '%${bedCode}%'</if>
+			<!-- 根据订单号查询 -->
+			<if test="orderId != null"> and bo.ORDER_ID like '%${orderId}%'</if>
+			<!-- 根据状态查询 -->
+			<if test="payState != null">and bo.PAY_STATE = #{payState}</if>
+
+		</trim>
+		ORDER BY
+			bo.START_TIME DESC
+	</select>
+
+	<!-- 地区统计 -->
+	<select id="queryHospitalCountList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedHospitalCountDTO">
+		SELECT 
+			province.NAME province,
+			city.NAME city,
+			country.NAME country,
+			bh.NAME hospitalName,
+		    bh.HOSPITAL_LEVEL hospitalLevel,
+		    bh.HOSPITAL_NATURE nature,
+			big.amount amount,
+			bog.times times,
+			bog.usedTime usedTime,
+			bog.usedCost usedCost
+		FROM
+			CHAIR.BASE_HOSPITAL bh
+		LEFT JOIN
+			CHAIR.BASE_PROVINCECITYAREA province
+			ON bh.PROVINCE = province.CODE
+		LEFT JOIN
+			CHAIR.BASE_PROVINCECITYAREA city
+			ON bh.CITY = city.CODE
+		LEFT JOIN
+			CHAIR.BASE_PROVINCECITYAREA country
+			ON bh.COUNTRY = country.CODE
+		LEFT JOIN 
+			(SELECT 
+				HOSPITAL_ID,
+				count(HOSPITAL_ID) amount
+			FROM
+				CHAIR.CHAIR_INFO
+			GROUP BY
+				HOSPITAL_ID) big
+			ON big.HOSPITAL_ID = bh.ID
+		LEFT JOIN 
+			(SELECT 
+				HOSPITAL_ID,
+				count(HOSPITAL_ID) times,
+				sum(SERVICE_TIME) usedTime,
+				sum(COST) usedCost
+			FROM
+				CHAIR.CHAIR_ORDER
+			WHERE
+				PAY_STATE = '1'
+			GROUP BY
+				HOSPITAL_ID) bog
+			ON bog.HOSPITAL_ID = bh.ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- <if test="@com.baisui.kxt.util.mybatis.Ognl@isNotEmpty(name)"> and t.name like '%${name}%'</if> -->
+			<!-- 根据省查询 -->
+			<if test="province != null">and bh.province = #{province}</if>
+			<!-- 根据市查询 -->
+			<if test="city != null">and bh.city = #{city}</if>
+			<!-- 根据县查询 -->
+			<if test="country != null">and bh.country = #{country}</if>
+			<!-- 根据医院名称查询 -->
+			<if test="hospitalName != null"> and bh.NAME like '%${hospitalName}%'</if>
+<!--			&lt;!&ndash; 根据开始时间查询 &ndash;&gt;-->
+<!--			<if test="startTime != null">and bog.START_TIME like '%${startTime}%'</if>-->
+<!--			&lt;!&ndash; 根据结束时间查询 &ndash;&gt;-->
+<!--			<if test="endTime != null">and bog.END_TIME like '%${endTime}%'</if>-->
+			and big.amount is not null
+		</trim>
+	</select>
+
+<!--	&lt;!&ndash; 医院性质统计 &ndash;&gt;-->
+<!--	<select id="queryHospitalNatureList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedHospitalNatureDto">-->
+<!--		SELECT-->
+<!--			bh.NAME hospitalName,-->
+<!--			big.amount amount,-->
+<!--			bog.times times,-->
+<!--			bog.usedTime usedTime,-->
+<!--			bog.usedCost usedCost-->
+<!--		FROM-->
+<!--			EDOCTOR.BASE_HOSPITAL bh-->
+<!--		LEFT JOIN-->
+<!--			(SELECT-->
+<!--				 HOSPITAL_ID,-->
+<!--				 count(HOSPITAL_ID) amount-->
+<!--			 FROM-->
+<!--				 EDOCTOR.BED_INFO-->
+<!--			 GROUP BY-->
+<!--				 HOSPITAL_ID) big-->
+<!--			ON big.HOSPITAL_ID = bh.ID-->
+<!--		LEFT JOIN-->
+<!--			(SELECT-->
+<!--				 HOSPITAL_ID,-->
+<!--				 count(HOSPITAL_ID) times,-->
+<!--				 sum(SERVICE_TIME) usedTime,-->
+<!--				 sum(COST) usedCost-->
+<!--			 FROM-->
+<!--				 EDOCTOR.BED_ORDER-->
+<!--			 WHERE-->
+<!--				 PAY_STATE = '1'-->
+<!--			 GROUP BY-->
+<!--				 HOSPITAL_ID) bog-->
+<!--			ON bog.HOSPITAL_ID = bh.ID-->
+<!--		<trim prefix="where" prefixOverrides="and|or">-->
+<!--			&lt;!&ndash;			&lt;!&ndash; 根据开始时间查询 &ndash;&gt;&ndash;&gt;-->
+<!--			&lt;!&ndash;			<if test="startTime != null">and bog.START_TIME like '%${startTime}%'</if>&ndash;&gt;-->
+<!--			&lt;!&ndash;			&lt;!&ndash; 根据结束时间查询 &ndash;&gt;&ndash;&gt;-->
+<!--			&lt;!&ndash;			<if test="endTime != null">and bog.END_TIME like '%${endTime}%'</if>&ndash;&gt;-->
+<!--			and big.amount is not null-->
+<!--		</trim>-->
+<!--	</select>-->
+
+	<!-- 科室统计 -->
+	<select id="queryDepartmentCountList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedDepartmentCountDTO">
+		SELECT 
+			bh.NAME hospitalName,
+			bh.HOSPITAL_LEVEL hospitalLevel,
+			big.amount amount,
+			bog.times times,
+			bog.usedTime usedTime,
+			bog.usedCost usedCost
+		FROM
+			CHAIR.BASE_HOSPITAL bh
+		<!-- TODO 连接科室 下面条件科室id -->
+		LEFT JOIN 
+			(SELECT 
+				HOSPITAL_ID,
+				count(HOSPITAL_ID) amount
+			FROM
+				CHAIR.CHAIR_INFO
+			GROUP BY
+				HOSPITAL_ID) big
+			ON big.HOSPITAL_ID = bh.ID
+		LEFT JOIN 
+			(SELECT 
+				HOSPITAL_ID,
+				count(HOSPITAL_ID) times,
+				sum(SERVICE_TIME) usedTime,
+				sum(COST) usedCost
+			FROM
+				CHAIR.CHAIR_ORDER
+			WHERE
+				PAY_STATE = '1'
+			GROUP BY
+				HOSPITAL_ID) bog
+			ON bog.HOSPITAL_ID = bh.ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- <if test="@com.baisui.kxt.util.mybatis.Ognl@isNotEmpty(name)"> and t.name like '%${name}%'</if> -->
+<!--			&lt;!&ndash; 根据开始时间查询 &ndash;&gt;-->
+<!--			<if test="startTime != null">and bog.START_TIME = #{startTime}</if>-->
+<!--			&lt;!&ndash; 根据结束时间查询 &ndash;&gt;-->
+<!--			<if test="endTime != null">and bog.end_time = #{endTime}</if>-->
+			and big.amount is not null
+		</trim>
+	</select>
+	
+<!--	<select id="querySaleHospitalList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.SaleHospitalDTO">-->
+<!--		SELECT-->
+<!--			SALER_NAME salerName,-->
+<!--			TEL contactPhone,-->
+<!--			count(SALER_NAME) amount-->
+<!--		FROM-->
+<!--			BED_HOSPITAL-->
+<!--		GROUP BY-->
+<!--			SALER_NAME,-->
+<!--			TEL-->
+<!--	</select>-->
+	
+<!--	<select id="querysaleHospitalDetailList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.SaleHospitalDetailDTO">-->
+<!--		SELECT -->
+<!--			province.NAME province,-->
+<!--			city.NAME city,-->
+<!--			country.NAME country,-->
+<!--			bh.HOSPITAL_NAME hospitalName,-->
+<!--			bh.LEV level,-->
+<!--			bh.NATURE nature,-->
+<!--			bh.CONTACT contact,-->
+<!--			bh.TEL contactPhone,-->
+<!--			bh.SALER_NAME salerName,-->
+<!--			bh.SIGNING_DATE signingDate,-->
+<!--			bh.EXPIRE_DATE expireDate,-->
+<!--			bh.SERVICE_STATE serviceDate,-->
+<!--			bog.times times,-->
+<!--			bog.usedTime usedTime,-->
+<!--			bog.usedCost usedCost-->
+<!--		FROM-->
+<!--			EDOCTOR.BED_HOSPITAL bh-->
+<!--		LEFT JOIN-->
+<!--			E2306.BASE_PROVINCECITYAREA province-->
+<!--			ON bh.PROVINCE = province.CODE-->
+<!--		LEFT JOIN-->
+<!--			E2306.BASE_PROVINCECITYAREA city-->
+<!--			ON bh.CITY = city.CODE-->
+<!--		LEFT JOIN-->
+<!--			E2306.BASE_PROVINCECITYAREA country-->
+<!--			ON bh.COUNTRY = country.CODE-->
+<!--		LEFT JOIN -->
+<!--			(SELECT -->
+<!--				HOSPITAL_ID,-->
+<!--				count(HOSPITAL_ID) times,-->
+<!--				sum(SERVICE_TIME) usedTime,-->
+<!--				sum(COST) usedCost-->
+<!--			FROM-->
+<!--				EDOCTOR.BED_ORDER-->
+<!--			WHERE-->
+<!--				PAY_STATE = '1'-->
+<!--			GROUP BY-->
+<!--				HOSPITAL_ID) bog-->
+<!--			ON bog.HOSPITAL_ID = bh.HOSPITAL_ID-->
+<!--		<trim prefix="where" prefixOverrides="and|or">-->
+<!--			&lt;!&ndash; <if test="@com.baisui.kxt.util.mybatis.Ognl@isNotEmpty(name)"> and t.name like '%${name}%'</if> &ndash;&gt;-->
+<!--			&lt;!&ndash; 根据省查询 &ndash;&gt;-->
+<!--			<if test="province != null">and bh.province = #{province}</if>-->
+<!--			&lt;!&ndash; 根据市查询 &ndash;&gt;-->
+<!--			<if test="city != null">and bh.city = #{city}</if>-->
+<!--			&lt;!&ndash; 根据县查询 &ndash;&gt;-->
+<!--			<if test="country != null">and bh.country = #{country}</if>-->
+<!--			&lt;!&ndash; 根据医院名称查询 &ndash;&gt;-->
+<!--			<if test="hospitalName != null"> and bh.HOSPITAL_NAME like '%${hospitalName}%'</if>-->
+<!--			&lt;!&ndash; 根据等级查询 &ndash;&gt;-->
+<!--			<if test="level != null">and bh.LEV = #{level}</if>-->
+<!--			&lt;!&ndash; 根据性质查询 &ndash;&gt;-->
+<!--			<if test="nature != null">and bh.NATURE = #{nature}</if>-->
+<!--			and big.amount is not null-->
+<!--		</trim>-->
+<!--	</select>-->
+
+	<!-- 消费者统计 -->
+	<select id="queryBedUserList" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedUserDTO">
+		SELECT
+			bo.USER_ID userId,
+			ui.USERNAME username,
+			ui.MOBILENO phone,
+			ui.name name,
+			ui.RECORDTIME recordTime,
+			ui.BALANCE balance,
+			ui.CASH_PLEDGE_STATE cashPledgeState
+		FROM
+			CHAIR.CHAIR_ORDER bo
+		LEFT JOIN
+			CHAIR.USER_INFO ui
+			ON bo.USER_ID = ui.ID
+	</select>
+
+	<!-- 会员详情页面信息 -->
+	<select id="queryMemberDateils" parameterType="java.lang.String" resultType="com.baisui.BedSystem.entity.dto.BedMemberDateilsDTO">
+        SELECT
+        bo.USER_ID userId,
+        province.NAME province,
+        city.NAME city,
+        country.NAME country,
+        bh.NAME hospitalName,
+        bi.CODE bedCode,
+        bs.DEPARTMENT_NAME departmentName,
+        bo.ORDER_ID orderId,
+        ui.MOBILENO userPhone,
+        bo.START_TIME startTime,
+        bo.END_TIME endTime,
+        bo.SERVICE_TIME serviceTime,
+        bo.COST cost,
+        bo.PAY_STATE payState,
+        bo.END_WAY endWay,
+        bo.PAY_WAY payWay
+
+        FROM
+        CHAIR.CHAIR_ORDER bo
+        LEFT JOIN
+        CHAIR.USER_INFO ui
+        ON bo.USER_ID = ui.ID
+        LEFT JOIN
+        CHAIR.CHAIR_INFO bi
+        ON bo.CODE = bi.CODE
+        LEFT JOIN
+        CHAIR.BASE_HOSPITAL bh
+        ON bi.HOSPITAL_ID = bh.ID
+        LEFT JOIN
+        CHAIR.BASE_PROVINCECITYAREA province
+        ON bh.PROVINCE = province.CODE
+        LEFT JOIN
+        CHAIR.BASE_PROVINCECITYAREA city
+        ON bh.CITY = city.CODE
+        LEFT JOIN
+        CHAIR.BASE_PROVINCECITYAREA country
+        ON bh.COUNTRY = country.CODE
+        LEFT JOIN
+        CHAIR.CHAIR_DEPARTMENT bs
+        ON bi.DEPARTMENT_ID=bs.ID
+		WHERE bo.USER_ID = #{userId,jdbcType=VARCHAR}
+
+
+		<!--<trim prefix="where" prefixOverrides="and|or">
+			&lt;!&ndash; <if test="@com.baisui.kxt.util.mybatis.Ognl@isNotEmpty(name)"> and t.name like '%${name}%'</if> &ndash;&gt;
+			&lt;!&ndash; 根据省查询 &ndash;&gt;
+			<if test="province != null">and bh.province = #{province}</if>
+			&lt;!&ndash; 根据市查询 &ndash;&gt;
+			<if test="city != null">and bh.city = #{city}</if>
+			&lt;!&ndash; 根据县查询 &ndash;&gt;
+			<if test="country != null">and bh.country = #{country}</if>
+			&lt;!&ndash; 根据医院名称查询 &ndash;&gt;
+			<if test="hospitalName != null"> and bh.NAME like '%${hospitalName}%'</if>
+			&lt;!&ndash; 根据科室名称 &ndash;&gt;
+			<if test="departmentName != null"> and bs.DEPARTMENT_NAME like '%${departmentName}%'</if>
+			&lt;!&ndash; 根据陪护椅编号查询 &ndash;&gt;
+			<if test="bedCode != null"> and bi.CODE like '%${bedCode}%'</if>
+			&lt;!&ndash; 根据订单号查询 &ndash;&gt;
+			<if test="orderId != null"> and bo.ORDER_ID like '%${orderId}%'</if>
+			&lt;!&ndash; 根据状态查询 &ndash;&gt;
+			<if test="payState != null">and bo.PAY_STATE = #{payState}</if>
+		</trim>-->
+		ORDER BY
+		bo.START_TIME DESC
+	</select>
+
+
+
+	<!-- 时间段统计 -->
+	<select id="queryDate" parameterType="java.util.Map" resultType="com.baisui.BedSystem.entity.dto.BedDateDto">
+		SELECT
+			big.amount amount,
+			bog.times times,
+			bog.usedTime usedTime,
+			bog.usedCost usedCost
+		FROM
+			CHAIR.BASE_HOSPITAL bh
+		LEFT JOIN
+			(SELECT
+				HOSPITAL_ID,
+				count(HOSPITAL_ID) amount
+			FROM
+				CHAIR.CHAIR_INFO
+			GROUP BY
+				HOSPITAL_ID) big
+			ON big.HOSPITAL_ID = bh.ID
+		LEFT JOIN
+			(SELECT
+				HOSPITAL_ID,
+				count(HOSPITAL_ID) times,
+				sum(SERVICE_TIME) usedTime,
+				sum(COST) usedCost
+			FROM
+				CHAIR.CHAIR_ORDER
+			GROUP BY
+				HOSPITAL_ID) bog
+			ON bog.HOSPITAL_ID = bh.ID
+		<trim prefix="where" prefixOverrides="and|or">
+			<!-- 根据开始时间查询 -->
+			<if test="startTime != null">and bog.START_TIME = #{startTime}</if>
+			<!-- 根据结束时间查询 -->
+			<if test="endTime != null">and bog.end_time = #{endTime}</if>
+			and big.amount is not null
+		</trim>
+	</select>
+
+</mapper>
